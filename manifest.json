@@ -1,0 +1,19 @@
+{
+	"background": {
+		"scripts": [ "background.js" ]
+	},
+	"content_scripts": [ {
+		"matches": [ "http://www.bccto.me/"],
+		"js": [ "contentscript.js" ],
+		"run_at": "document_end"
+	} ],
+	"name": "ToolExt",
+	"manifest_version": 2,
+	"version": "0.0.1",
+	"description": "regist the bccto mail",
+	"browser_action": {
+		"default_icon": "ToolExt.png" ,
+		"default_title": "ToolExt",
+		"default_popup": "popup.html"
+	}
+}
