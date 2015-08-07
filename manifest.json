@@ -2,18 +2,62 @@
 	"background": {
 		"scripts": [ "background.js" ]
 	},
-	"content_scripts": [ {
-		"matches": [ "http://www.bccto.me/"],
-		"js": [ "contentscript.js" ],
-		"run_at": "document_end"
-	} ],
-	"name": "ToolExt",
+
+  "permissions": [
+	"tabs",
+	"storage",
+	"bookmarks",
+	"http://*/*",
+	"https://*/*"
+  ],
+
+  "content_scripts": [
+	{
+	  "matches": ["http://www.bccto.me/*"],
+	  "js": [ "bccto.js" ],
+	  "run_at": "document_end"
+	},
+	{
+	  "matches": ["https://www.nutaku.net/signup/*"],
+	  "js": [ "nutakuSignup.js"],
+	  "run_at": "document_end"
+	},
+	{
+	  "matches": ["https://www.nutaku.net/signup/activation/complete/*"],
+	  "js": [ "nutakuJump.js"],
+	  "run_at": "document_end"
+	},
+	{
+	  "matches": ["http://www.nutaku.net/home/*"],
+	  "js": [ "nutakuHome.js" ],
+	  "run_at": "document_end"
+	},
+	{
+	  "matches": ["http://www.nutaku.net/games/millennium-war-aigis/"],
+	  "js": [ "startAigis.js" ],
+	  "run_at": "document_end"
+	},
+	{
+	  "matches": ["http://www.nutaku.net/games/millennium-war-aigis/play/*"],
+	  "js": [ "parseAigisURL.js" ],
+	  "run_at": "document_end"
+	}
+  ],
+
+	"icons": {
+		"16": "image/logo_1.png",
+		"32": "image/logo_2.png",
+		"96": "image/logo_3.png"
+	},
+
+	"name": "ToolAigis",
 	"manifest_version": 2,
 	"version": "0.0.1",
-	"description": "regist the bccto mail",
+	"description": "regist nutaku and play aigis",
+
 	"browser_action": {
-		"default_icon": "ToolExt.png" ,
-		"default_title": "ToolExt",
+	  	"default_title": "ToolAigis",
+	  	"default_icon": "image/logo_1.png" ,
 		"default_popup": "popup.html"
 	}
 }
