@@ -115,7 +115,7 @@ Sub FindAndClick(picname, offsets)
 	imgFindRet = "searching"
 	While imgFindRet = "searching"
 		Delay(50)
-		FindPic 0,0,1024,768,"Attachment:\"+picname, 1.0,intX,intY
+		FindPic 0,0,1024,768,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
 			imgFindRet = "found"
 			MoveTo intX + offsets, intY + offsets
@@ -125,11 +125,11 @@ Sub FindAndClick(picname, offsets)
 End Sub
 
 // 查找图片并点击，找到前点击空白区域
-Sub FindAndClickBlank(picanme, offsets)
+Sub FindAndClickBlank(picname, offsets)
 	imgFindRet = "searching"
 	While imgFindRet = "searching"
-		Call ClickBlank(1)
-		FindPic 0,0,1024,768,"Attachment:\"+picname, 1.0,intX,intY
+		//Call ClickBlank(1)
+		FindPic 0,0,1024,768,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
 			imgFindRet = "found"
 			MoveTo intX + offsets, intY + offsets
