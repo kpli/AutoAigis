@@ -29,11 +29,11 @@ UEsDBBQAAgAIABpKB0epKJiDjSwAAM5MAAANABEAQm9uZGluZzAwLmJtcFVUDQAHbXfEVW13xFX1csRV
 [Script]
 
 // 第一关
-Call ThrowTheRole("ST01.bmp", 10, 540, 420)
-Call ThrowTheRole("ST03.bmp", 10, 658, 339)
-Call ThrowTheRole("ST04.bmp", 10, 432, 343)
-Call ThrowTheRole("ST02.bmp", 10, 508, 344)
-Call ThrowTheRole("ST00.bmp", 10, 578, 326)
+Call ThrowTheRole("ST01.bmp", 10, 428, -235)
+Call ThrowTheRole("ST03.bmp", 10, 237, -312)
+Call ThrowTheRole("ST04.bmp", 10, 216, -306)
+Call ThrowTheRole("ST02.bmp", 10, 395, -310)
+Call ThrowTheRole("ST00.bmp", 10, 568, -324)
 Call WaitClickOK()
 	Delay(150)
 Call WaitClickOK()
@@ -50,10 +50,10 @@ Call StoryEntry()
 	Delay(150)
 
 // 第二关
-Call ThrowTheRole("ST03.bmp", 10, 550, 445)
-Call ThrowTheRole("ST04.bmp", 10, 490, 467)
-Call ThrowTheRole("ST00.bmp", 10, 486, 386)
-Call ThrowTheRole("ST01.bmp", 10, 378, 404)
+Call ThrowTheRole("ST03.bmp", 10, 27, -206)
+Call ThrowTheRole("ST04.bmp", 10, 172, -182)
+Call ThrowTheRole("ST01.bmp", 10, 266, -251)
+Call ThrowTheRole("ST00.bmp", 10, 476, -264)
 	Delay(150)
 Call WaitClickOK()
 	Delay(150)
@@ -86,16 +86,16 @@ Call WaitClickBack()
 Call StoryEntry()
 
 // 第三关
-Call ThrowTheRole("ST03.bmp", 10, 471, 388)
+Call ThrowTheRole("ST03.bmp", 10, -52, -263)
 Call ClickBlank(10)
-Call ThrowTheRole("ST04.bmp", 10, 467, 483)
+Call ThrowTheRole("ST04.bmp", 10, 149, -166)
 Call FindAndClick("SpeedUP.bmp", 20)
 For 10
 	Delay 1000
 Next
 Call ClickBlank(10)
 Call FindAndClick("SpeedUP.bmp", 20)
-For 45
+For 48
 	Delay 1000
 Next
 Call WaitClickOK()
@@ -200,7 +200,7 @@ Sub ThrowTheRole(picname, offsets, ix, iy)
 		FindPic 0,0,1024,768,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
 			imgFindRet = "found"
-			Call DragRole(intX + offsets, intY + offsets, ix, iy)
+			Call DragRole(intX + offsets, intY + offsets, ix + intX, iy + intY)
 		End If
 	Wend
 End Sub
