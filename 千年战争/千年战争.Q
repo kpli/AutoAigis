@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=37e28a13-6164-41c8-bd92-619511a05a5b
 Description=千年战争
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -72,7 +72,7 @@ Sub InitCoord()
 			// 设置窗口范围
 			iFrameX = iIconX - 250
 			iFrameY = iIconY - 200
-			iFrameX1 = iIconX - 250 + 1000
+			iFrameX1 = iIconX - 250 + 970
 			iFrameY1 = iIconY - 200 + 650
 			// 设置按钮坐标
 			iOKX = iIconX - 250 + 475
