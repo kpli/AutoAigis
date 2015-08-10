@@ -308,7 +308,7 @@ Sub SaveAigisEx(bGotCard)
 		sDateTime = Replace(sDateTime,"-","")
 		sDateTime = Replace(sDateTime, " ", "")
 		If bGotCard Then 
-			Call Plugin.Pic.PrintScreen(iFrameX, iFrameY, iFrameX1, iFrameY1, "E:\AigisOut\Aigis_" & sDateTime & ".bmp")
+			Call Plugin.Pic.PrintScreen(iFrameX, iFrameY-100, iFrameX1, iFrameY1, "E:\AigisOut\Aigis_" & sDateTime & ".bmp")
 		Else
 			Call Plugin.Pic.PrintScreen(iFrameX, iFrameY, iFrameX1, iFrameY1, "E:\AigisOut\TimeOut_" & sDateTime & ".bmp")
 		End If
