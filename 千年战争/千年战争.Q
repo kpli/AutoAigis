@@ -42,11 +42,17 @@ iSpeedY = 0
 // 游戏窗口范围做坐标
 iFrameX = 0
 iFrameY = 0
-iFrameX1 = 0
-iFrameY1 = 0
+iFrameX1 = 1920
+iFrameY1 = 1080
+
+
+iTimeOutCounter = 0
+
+Rem GAME_BEGIN
 
 // 多次首抽循环
 While True
+	iTimeOutCounter = 0
 	Call InitCoord()	
 	Call PlayForFirstCard()	
 	Call WaitTime(10)
@@ -57,7 +63,9 @@ EndScript
 // 坐标计算
 Sub InitCoord()
 	bFound = False
-	While (Not bFound)
+	iTimeOutCounter = 0
+	While (Not bFound )
+		Call TimeOutDetector()
 		FindPic 0, 0, 1920, 1080, "Attachment:\GameIcon.bmp", 0.9, iIconX, iIconY
 		If iIconX > 0 And iIconX > 0 Then 
 			bFound = True
@@ -82,7 +90,7 @@ End Sub
 Sub PlayForFirstCard()
 // ------------------------------------------------------
 	// 第一关
-	Call JoinWar("ST01.bmp", 10, 428, -235)
+	Call JoinWarSp("ST01.bmp", 10, 428, -235)
 	Call JoinWar("ST03.bmp", 10, 237, -312)
 	Call JoinWar("ST04.bmp", 10, 216, -306)
 	Call JoinWar("ST02.bmp", 10, 395, -310)
@@ -92,7 +100,7 @@ Sub PlayForFirstCard()
 	// 第二关入口
 	Call AigisFindEx("GameStoryEntry.bmp",20)
 	// 第二关
-	Call JoinWar("ST03.bmp", 10, 27, -206)
+	Call JoinWarSp("ST03.bmp", 10, 27, -206)
 	Call JoinWar("ST04.bmp", 10, 172, -182)
 	Call JoinWar("ST01.bmp", 10, 266, -251)
 	Call JoinWar("ST00.bmp", 10, 476, -264)
@@ -109,7 +117,7 @@ Sub PlayForFirstCard()
 	Call AigisFindEx("GameStoryEntry.bmp",20)
 	bBackButton = False
 	// 第三关
-	Call JoinWar("ST03.bmp", 10, -52, -263)
+	Call JoinWarSp("ST03.bmp", 10, -52, -263)
 	Call JoinWar("ST04.bmp", 10, 149, -166)
 	Call WaitWin()
 // ------------------------------------------------------
@@ -118,25 +126,10 @@ Sub PlayForFirstCard()
 	Call AigisFind("Random01.bmp", 40)
 	Call AigisFind("Random02.bmp", 10)
 	Call AigisFind("Random03.bmp", 10)
-	Call AigisFindSp("Radnom04.bmp")
 // ------------------------------------------------------
 	// 保存截图
-	sDateTime = Plugin.Sys.GetDateTime()
-	sDateTime = Replace(sDateTime,":","")
-	sDateTime = Replace(sDateTime,"-","")
-	sDateTime = Replace(sDateTime," ","")
-	Call Plugin.Pic.PrintScreen(iFrameX, iFrameY - 100, iFrameX1, iFrameY1, "E:\AigisOut\Aigis_" & sDateTime & ".bmp")
-	Call WaitTime(1)
-	// 关闭游戏
-	Call CloseWebTab()
-	Call CloseWebTab()
-	Call CloseWebTab()
-	Call CloseWebTab()
-	Call CloseWebTab()
-	Call WaitTime(1)
-	// 刷新临时邮箱
-	RunApp "chrome"
-	Call WaitTime(1)
+	Call WaitTime(60)
+	Call SaveAigis()
 // ------------------------------------------------------
 End Sub
 
@@ -149,7 +142,9 @@ End Sub
 // 找到图片, 不操作
 Sub AigisFindSp(picname)
 	bFound = False
-	While (Not bFound)
+	iTimeOutCounter = 0
+	While (Not bFound )
+		Call TimeOutDetector()
 		Delay(50)
 		FindPic iFrameX,iFrameY,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -162,7 +157,9 @@ End Sub
 // 找到图片并点击
 Sub AigisFind(picname, offsets)
 	bFound = False
-	While (Not bFound)
+	iTimeOutCounter = 0
+	While (Not bFound )
+		Call TimeOutDetector()
 		Delay(50)
 		FindPic iFrameX,iFrameY,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -179,7 +176,9 @@ End Sub
 // 找到图片并点击，没找到则循环点击空白区域
 Sub AigisFindEx(picname, offsets)
 	bFound = False
-	While (Not bFound)
+	iTimeOutCounter = 0
+	While (Not bFound )
+		Call TimeOutDetector()
 		Call AigisClick(1)
 		FindPic iFrameX,iFrameY,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -200,15 +199,32 @@ Sub DragRole(p1x, p1y, p2x, p2y)
 	LeftDown 1
 	Delay 100
 	MoveTo p2x, p2y
-	Delay 100
+	Delay 200
 	LeftUp 1
 	Delay 50
+End Sub
+
+// 角色加入战场, 不加速
+Sub JoinWarSp(picname, offsets, ix, iy)
+	bFound = False
+	iTimeOutCounter = 0
+	While (Not bFound )
+		Call AigisClick(1)
+		Call TimeOutDetector()
+		FindPic iFrameX,iFrameY+500,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
+		If intX > 0 And intY > 0 Then 
+			bFound = True
+			Call DragRole(intX + offsets, intY + offsets, ix + intX, iy + intY)
+		End If
+	Wend
 End Sub
 
 // 角色加入战场
 Sub JoinWar(picname, offsets, ix, iy)
 	bFound = False
-	While (Not bFound)
+	iTimeOutCounter = 0
+	While (Not bFound )
+		Call TimeOutDetector()
 		Call SpeedUpEx()
 		FindPic iFrameX,iFrameY+500,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -254,7 +270,9 @@ End Sub
 // 等待结束(包含加速)
 Sub WaitWin()
 	bFound = False
+	iTimeOutCounter = 0
 	While (Not bFound )
+		Call TimeOutDetector()
 		Call SpeedUpEx()
 		FindPic iFrameX+400, iFrameY+380, iFrameX+550, iFrameY+470, "Attachment:\GameWin.bmp", 0.9, intX, intY
 		If intX > 0 And intY > 0 Then 
@@ -262,3 +280,38 @@ Sub WaitWin()
 		End If
 	Wend
 End Sub
+
+Sub TimeOutDetector()
+	curCounter = iTimeOutCounter
+	iTimeOutCounter = curCounter + 1
+	If iTimeOutCounter > 6000 Then 
+		iTimeOutCounter = 0
+		Call SaveAigis()
+		Call WaitTime(10)
+		Goto GAME_BEGIN
+	End If
+End Sub
+
+
+Sub SaveAigis()
+		// 保存截图
+		Call Plugin.File.CreateFolder("E:\AigisOut")
+		sDateTime = Plugin.Sys.GetDateTime()
+		sDateTime = Replace(sDateTime,":","")
+		sDateTime = Replace(sDateTime,"-","")
+		sDateTime = Replace(sDateTime," ","")
+		Call Plugin.Pic.PrintScreen(0, 0, 1920, 1080, "E:\AigisOut\TimeOut_" & sDateTime & ".bmp")
+		Call WaitTime(1)
+		// 关闭游戏
+		Call CloseWebTab()
+		Call CloseWebTab()
+		Call CloseWebTab()
+		Call CloseWebTab()
+		Call CloseWebTab()
+		Call WaitTime(1)
+		// 刷新临时邮箱
+		RunApp "chrome"
+		Call WaitTime(1)
+End Sub
+
+
