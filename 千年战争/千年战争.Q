@@ -45,8 +45,8 @@ iFrameY = 0
 iFrameX1 = 1920
 iFrameY1 = 1080
 
-
 iTimeOutCounter = 0
+RunApp "chrome"
 
 Rem GAME_BEGIN
 
@@ -117,8 +117,11 @@ Sub PlayForFirstCard()
 	Call AigisFindEx("GameStoryEntry.bmp",20)
 	bBackButton = False
 	// 第三关
-	Call JoinWarSp("ST03.bmp", 10, -52, -263)
-	Call JoinWar("ST04.bmp", 10, 149, -166)
+	Call JoinWarSp("ST01.bmp", 10, 208, -319)
+	Call JoinWar("ST02.bmp", 10, 181, -181)
+	Call JoinWar("ST06.bmp", 10, 320, -105)
+	Call JoinWar("ST03.bmp", 10, 169, -227)
+	Call JoinWar("ST05.bmp", 10, 145, -184)
 	Call WaitWin()
 // ------------------------------------------------------
 	// 进入抽卡
