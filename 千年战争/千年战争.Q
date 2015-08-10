@@ -128,7 +128,7 @@ Sub PlayForFirstCard()
 	Call AigisFind("Random03.bmp", 10)
 // ------------------------------------------------------
 	// ±£´æ½ØÍ¼
-	Call WaitTime(60)
+	Call WaitTime(20)
 	Call SaveAigis()
 // ------------------------------------------------------
 End Sub
@@ -214,6 +214,7 @@ Sub JoinWarSp(picname, offsets, ix, iy)
 		FindPic iFrameX,iFrameY+500,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
 			bFound = True
+			Call WaitTime(1)
 			Call DragRole(intX + offsets, intY + offsets, ix + intX, iy + intY)
 		End If
 	Wend
@@ -284,7 +285,7 @@ End Sub
 Sub TimeOutDetector()
 	curCounter = iTimeOutCounter
 	iTimeOutCounter = curCounter + 1
-	If iTimeOutCounter > 6000 Then 
+	If iTimeOutCounter > 3600 Then 
 		iTimeOutCounter = 0
 		Call SaveAigis()
 		Call WaitTime(10)
