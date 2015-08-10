@@ -214,7 +214,7 @@ Sub JoinWarSp(picname, offsets, ix, iy)
 		FindPic iFrameX,iFrameY+500,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
 			bFound = True
-			Call WaitTime(1)
+			Call WaitTime(3)
 			Call DragRole(intX + offsets, intY + offsets, ix + intX, iy + intY)
 		End If
 	Wend
