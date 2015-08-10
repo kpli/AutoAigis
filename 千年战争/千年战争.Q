@@ -129,7 +129,7 @@ Sub PlayForFirstCard()
 // ------------------------------------------------------
 	// ±£¥ÊΩÿÕº
 	Call WaitTime(20)
-	Call SaveAigis()
+	Call SaveAigisEx(True)
 // ------------------------------------------------------
 End Sub
 
@@ -296,12 +296,22 @@ End Sub
 
 Sub SaveAigis()
 		// ±£¥ÊΩÿÕº
+		Call SaveAigisEx(False)
+End Sub
+
+
+Sub SaveAigisEx(bGotCard)
+		// ±£¥ÊΩÿÕº
 		Call Plugin.File.CreateFolder("E:\AigisOut")
 		sDateTime = Plugin.Sys.GetDateTime()
 		sDateTime = Replace(sDateTime,":","")
 		sDateTime = Replace(sDateTime,"-","")
-		sDateTime = Replace(sDateTime," ","")
-		Call Plugin.Pic.PrintScreen(0, 0, 1920, 1080, "E:\AigisOut\TimeOut_" & sDateTime & ".bmp")
+		sDateTime = Replace(sDateTime, " ", "")
+		If bGotCard Then 
+			Call Plugin.Pic.PrintScreen(iFrameX, iFrameY, iFrameX1, iFrameY1, "E:\AigisOut\Aigis_" & sDateTime & ".bmp")
+		Else
+			Call Plugin.Pic.PrintScreen(iFrameX, iFrameY, iFrameX1, iFrameY1, "E:\AigisOut\TimeOut_" & sDateTime & ".bmp")
+		End If
 		Call WaitTime(1)
 		// πÿ±’”Œœ∑
 		Call CloseWebTab()
@@ -314,5 +324,4 @@ Sub SaveAigis()
 		RunApp "chrome"
 		Call WaitTime(1)
 End Sub
-
 
