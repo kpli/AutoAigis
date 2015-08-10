@@ -41,6 +41,11 @@
 	  "matches": ["http://www.nutaku.net/games/millennium-war-aigis/play/*"],
 	  "js": [ "parseAigisURL.js" ],
 	  "run_at": "document_end"
+	},
+	{
+	  "matches": ["http://pf.nutaku.info/gadgets/ifr*"],
+	  "js": [ "playing.js" ],
+	  "run_at": "document_end"
 	}
   ],
 
