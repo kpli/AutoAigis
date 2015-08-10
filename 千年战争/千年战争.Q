@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=37e28a13-6164-41c8-bd92-619511a05a5b
 Description=千年战争
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -98,7 +98,7 @@ Sub PlayForFirstCard()
 	Call WaitWin()
 // ------------------------------------------------------
 	// 第二关入口
-	Call AigisFindEx("GameStoryEntry.bmp",20)
+	Call AigisFindExRect("GameStoryEntry.bmp", 20, 510, 100, -300, -400)
 	// 第二关
 	Call JoinWarSp("ST03.bmp", 10, 27, -206)
 	Call JoinWar("ST04.bmp", 10, 172, -182)
@@ -107,14 +107,14 @@ Sub PlayForFirstCard()
 	Call WaitWin()
 // ------------------------------------------------------
 	// 选择增益
-	Call AigisFindEx("Bonding00.bmp", 40)
+	Call AigisFindExRect("Bonding00.bmp", 30, 0, 510, -800, 0)
 	Call AigisFind("Bonding01.bmp", 40)
 	Call AigisFind("Bonding02.bmp", 40)
 	Call AigisFind("Bonding03.bmp", 40)
 // ------------------------------------------------------
 	// 找到第三关入口并进入
 	bBackButton = True
-	Call AigisFindEx("GameStoryEntry.bmp",20)
+	Call AigisFindExRect("GameStoryEntry.bmp", 20, 510, 100, -300, -400)
 	bBackButton = False
 	// 第三关
 	Call JoinWarSp("ST01.bmp", 10, 208, -319)
@@ -125,7 +125,7 @@ Sub PlayForFirstCard()
 	Call WaitWin()
 // ------------------------------------------------------
 	// 进入抽卡
-	Call AigisFindEx("Random00.bmp", 0)
+	Call AigisFindExRect("Random00.bmp", 0, 270, 250, -500, -230)
 	Call AigisFind("Random01.bmp", 40)
 	Call AigisFind("Random02.bmp", 10)
 	Call AigisFind("Random03.bmp", 10)
@@ -194,6 +194,23 @@ Sub AigisFindEx(picname, offsets)
 	Wend
 End Sub
 
+// 指定范围内找到图片并点击，没找到则循环点击空白区域
+Sub AigisFindExRect(picname, offsets, off1, off2, off3, off4)
+	bFound = False
+	iTimeOutCounter = 0
+	While (Not bFound )
+		Call TimeOutDetector()
+		Call AigisClick(1)
+		FindPic iFrameX+off1,iFrameY+off2,iFrameX1+off3,iFrameY1+off4,"Attachment:\"+picname, 0.9, intX,intY
+		If intX > 0 And intY > 0 Then 
+			bFound = True
+			Delay 500
+			MoveTo intX + offsets, intY + offsets
+			LeftClick 1
+			Delay 500
+		End If
+	Wend
+End Sub
 
 // 放置角色的鼠标动作
 Sub DragRole(p1x, p1y, p2x, p2y)
