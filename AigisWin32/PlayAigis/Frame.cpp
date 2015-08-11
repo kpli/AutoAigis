@@ -47,7 +47,7 @@ void CFrame::getAccount(LPTSTR lpBuf, int maxLen)
 	GetWindowText(hChrome, lpBuf, maxLen);
 
 	int nLen = _tcslen(lpBuf);
-	if (nLen == 0)
+	if (nLen == 0 || nLen >= maxLen/2)
 	{
 		_tcscpy_s(lpBuf, maxLen, _T("ERR"));
 	}
@@ -109,7 +109,6 @@ void CFrame::saveImage()
 
 	CTools* pTools = CTools::getInstance();
 	pTools->saveBmp(hwnd, fileName);
-	closeChrome();
 }
 
 bool CFrame::findColor(CPnt5* pnt5)

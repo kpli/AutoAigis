@@ -23,7 +23,8 @@ CPnt5 CLogic::s_GameBtnBack(908, 64, 0xf6f6f9, 0xeaeaf0, 0x5353c1, 0xe0e0eb, 0xf
 CPnt5 CLogic::s_GameSpeed1(871, 36, 0x212455, 0x1e214e, 0x292d6b, 0x212455, 0x181a3d);	// 第一关加速
 CPnt5 CLogic::s_GameSpeed2(871, 36, 0x212455, 0x1e214e, 0x292d6b, 0x212455, 0x181a3d);	// 第二关加速
 CPnt5 CLogic::s_GameSpeed3(871, 37, 0x1f2250, 0x1c1f49, 0x272b67, 0x1f2250, 0x161839);	// 第三关加速
-CPnt5 CLogic::s_Bounding1(95, 575, 0x469cb, 0x49b0da, 0xa1fdff, 0x26a6c4, 0x20d89b);		// 选择增益1步
+//CPnt5 CLogic::s_Bounding1(95, 575, 0x469cb, 0x49b0da, 0xa1fdff, 0x26a6c4, 0x20d89b);		// 选择增益1步
+CPnt5 CLogic::s_Bounding1(92, 577, 0x4d6a4, 0x4d6a4, 0x257c8, 0x9489, 0x4b37f);		// 选择增益1步
 CPnt5 CLogic::s_Bounding2(399, 287, 0x3d5572, 0x5c7093, 0xc1d3dd, 0xd686e3, 0xef94ff);		// 选择增益2步
 CPnt5 CLogic::s_Bounding3(442, 175, 0x92aded, 0xc9d2ff, 0x8092d2, 0x3f1b40, 0x3f1b40);		// 选择增益3步
 CPnt5 CLogic::s_Bounding4(266, 448, 0x2f2d8a, 0xffffff, 0x373693, 0xcbcae6, 0x5050a4);		// 选择增益4步
@@ -73,14 +74,14 @@ void CLogic::ThreadPlaying(void *)
 {
 	while (CCtrl::canPlay())
 	{
-		getInstance()->startRegist();
-		getInstance()->waitTime(60);	// 等待注册
-
-		getInstance()->waitIcon_nothing();
-		getInstance()->playStory1();
-
-		getInstance()->waitEntry_clickOK();
-		getInstance()->playStory2();
+ 		getInstance()->startRegist();
+ 		getInstance()->waitTime(60);	// 等待注册
+ 
+ 		getInstance()->waitIcon_nothing();
+ 		getInstance()->playStory1();
+ 
+ 		getInstance()->waitEntry_clickOK();
+ 		getInstance()->playStory2();
 
 		getInstance()->waitBound_clickOK();
 
@@ -91,7 +92,11 @@ void CLogic::ThreadPlaying(void *)
 		getInstance()->waitCard();	// 等待抽卡完成
 
 		CFrame::getInstance()->saveImage();
-		getInstance()->waitTime(10);
+		if (CCtrl::canPlay())
+		{
+			CFrame::getInstance()->closeChrome();
+			getInstance()->waitTime(10);
+		}
 	}
 	_endthread();
 }
@@ -111,6 +116,7 @@ void CLogic::playStory1()
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role3);
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role4);
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role5);
+	CLogic::s_bWaitFor = true;
 	waitOK_bySpeedup(&s_GameSpeed1);
 }
 
@@ -118,10 +124,15 @@ void CLogic::playStory2()
 {
 	cout << "______PLAY_STORY_2______" << endl;
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role1);
+	CLogic::s_bWaitFor = true;
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role2);
+	CLogic::s_bWaitFor = true;
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role3);
+	CLogic::s_bWaitFor = true;
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role4);
+	CLogic::s_bWaitFor = true;
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role5);
+	CLogic::s_bWaitFor = true;
 	waitOK_bySpeedup(&s_GameSpeed2);
 }
 
@@ -133,6 +144,7 @@ void CLogic::playStory3()
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role3);
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role4);
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role5);
+	CLogic::s_bWaitFor = true;
 	waitOK_bySpeedup(&s_GameSpeed3);
 }
 
@@ -184,7 +196,7 @@ void CLogic::waitPnt_clickPnt(CPnt5* pClick, CPnt5* pWait, bool bfirst)
 			pWait->click();
 			break;
 		}
-	LOOP_END(120)
+	LOOP_END(TIMEOUT_MAX_SECONDS)
 }
 
 void CLogic::waitRole_bySpeedup(CPnt5* pntSpeed, CRolePnt* role, bool bfirst)
@@ -198,7 +210,7 @@ void CLogic::waitRole_bySpeedup(CPnt5* pntSpeed, CRolePnt* role, bool bfirst)
 			role->drag();
 			break;
 		}
-	LOOP_END(120)
+	LOOP_END(TIMEOUT_MAX_SECONDS)
 }
 
 
@@ -211,7 +223,7 @@ void CLogic::waitOK_bySpeedup(CPnt5* pntSpeed)
 			s_GameBtnOK.click();
 			break;
 		}
-	LOOP_END(120)
+	LOOP_END(TIMEOUT_MAX_SECONDS)
 }
 
 void CLogic::clickSpeedUp(CPnt5* pntSpeed)
@@ -226,10 +238,10 @@ void CLogic::clickSpeedUp(CPnt5* pntSpeed)
 		pntSpeed->click();
 	}
 }
-#if 0
+#if 1
 void CLogic::waitCard()
 {
-	while (CCtrl::canPlay())
+	while (CCtrl::canPlay() && canWait())
 	{
 		Sleep(20);
 		if (s_CardSilver.find())
