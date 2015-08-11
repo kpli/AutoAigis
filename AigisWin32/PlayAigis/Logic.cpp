@@ -7,7 +7,7 @@
 
 
 #define LOOP_BEGIN	size_t bt = GetTickCount();	while (CCtrl::canPlay() && canWait()) {
-#define LOOP_END	DetectTimeout(bt, 120);}
+#define LOOP_END(sec)	DetectTimeout(bt, sec);}
 
 bool CLogic::s_bWaitFor = true;
 
@@ -93,10 +93,12 @@ void CLogic::startRegist()
 {
 	CLogic::s_bWaitFor = true;
 	ShellExecute(NULL, _T("open"), _T("chrome.exe"), _T("www.bccto.me"), _T(""), WM_SHOWWINDOW);
+	cout << "______REGIST_START______" << endl;
 }
 
 void CLogic::playStory1()
 {
+	cout << "______PLAY_STORY_1______" << endl;
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role1, true);
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role2);
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role3);
@@ -107,6 +109,7 @@ void CLogic::playStory1()
 
 void CLogic::playStory2()
 {
+	cout << "______PLAY_STORY_2______" << endl;
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role1);
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role2);
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role3);
@@ -117,6 +120,7 @@ void CLogic::playStory2()
 
 void CLogic::playStory3()
 {
+	cout << "______PLAY_STORY_3______" << endl;
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role1);
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role2);
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role3);
@@ -127,16 +131,19 @@ void CLogic::playStory3()
 
 void CLogic::waitIcon_nothing()
 {
+	cout << "______WAIT_ICON______" << endl;
 	waitPnt_clickPnt(nullptr, &s_GameIcon);
 }
 
 void CLogic::waitEntry_clickOK()
 {
+	cout << "______WAIT_ENTRY_2______" << endl;
 	waitPnt_clickPnt(&s_GameBtnOK, &s_GameStory);
 }
 
 void CLogic::waitBound_clickOK()
 {
+	cout << "______WAIT_BOUND______" << endl;
 	waitPnt_clickPnt(&s_GameBtnOK, &s_Bounding1);
 	waitPnt_clickPnt(nullptr, &s_Bounding2);
 	waitPnt_clickPnt(nullptr, &s_Bounding3);
@@ -145,11 +152,13 @@ void CLogic::waitBound_clickOK()
 
 void CLogic::waitEntry_clickBack()
 {
+	cout << "______WAIT_ENTRY_3______" << endl;
 	waitPnt_clickPnt(&s_GameBtnBack, &s_GameStory);
 }
 
 void CLogic::waitCard_clickOK()
 {
+	cout << "______WAIT_CARD______" << endl;
 	waitPnt_clickPnt(&s_GameBtnOK, &s_Random1);
 	waitPnt_clickPnt(nullptr, &s_Random2);
 	waitPnt_clickPnt(nullptr, &s_Random3);
@@ -166,7 +175,7 @@ void CLogic::waitPnt_clickPnt(CPnt5* pClick, CPnt5* pWait)
 			pWait->click();
 			break;
 		}
-	LOOP_END
+	LOOP_END(120)
 }
 
 void CLogic::waitRole_bySpeedup(CPnt5* pntSpeed, CRolePnt* role, bool bfirst)
@@ -180,7 +189,7 @@ void CLogic::waitRole_bySpeedup(CPnt5* pntSpeed, CRolePnt* role, bool bfirst)
 			role->drag();
 			break;
 		}
-	LOOP_END
+	LOOP_END(120)
 }
 
 
@@ -193,11 +202,16 @@ void CLogic::waitOK_bySpeedup(CPnt5* pntSpeed)
 			s_GameBtnOK.click();
 			break;
 		}
-	LOOP_END
+	LOOP_END(120)
 }
 
 void CLogic::clickSpeedUp(CPnt5* pntSpeed)
 {
+	if (!pntSpeed)
+	{
+		cout << "______ERR_PNT_SPEED_NULL______" << endl;
+		return;
+	}
 	if (pntSpeed->find())
 	{
 		pntSpeed->click();
@@ -222,6 +236,7 @@ void CLogic::DetectTimeout(size_t bt, size_t iSecs)
 	if (dt >= iSecs * 1000)
 	{
 		CLogic::s_bWaitFor = false;		// 结束本次首抽，进行下一轮
+		cout << "______TIME_OUT_" << iSecs << "______"<< endl;
 	}
 }
 

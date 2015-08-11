@@ -30,7 +30,6 @@ HWND CFrame::aigisHwnd()
 	HWND hFrame = FindWindowEx(hChrome, 0, _T("Chrome_RenderWidgetHostHWND"), _T("Chrome Legacy Window"));
 	if (!hFrame)
 	{
-		cout << "frame hwnd error" << endl;
 		return nullptr;
 	}
 
@@ -86,13 +85,11 @@ HWND CFrame::chromeHwnd()
 	HWND hTabMain = FindWindow(CHROME_CLASSNAME, nullptr);
 	if (!hTabMain)
 	{
-		cout << "hTabMain hwnd error" << endl;
 		return nullptr;
 	}
 	HWND hChrome = GetParent(hTabMain);
 	if (!hChrome)
 	{
-		cout << "hChrome hwnd error" << endl;
 		return nullptr;
 	}
 	return hChrome;
