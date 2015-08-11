@@ -36,7 +36,7 @@ protected:
 
 
 private:
-	void waitPnt_clickPnt(CPnt5* pClick, CPnt5* pWait);
+	void waitPnt_clickPnt(CPnt5* pClick, CPnt5* pWait, bool bfirst = false);
 
 	// 点击加速， 直到角色上场
 	void waitRole_bySpeedup(CPnt5* pntSpeed, CRolePnt* role, bool bfirst = false);

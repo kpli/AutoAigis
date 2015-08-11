@@ -151,7 +151,7 @@ void CLogic::waitEntry_clickOK()
 void CLogic::waitBound_clickOK()
 {
 	cout << "______WAIT_BOUND______" << endl;
-	waitPnt_clickPnt(&s_GameBtnOK, &s_Bounding1);
+	waitPnt_clickPnt(&s_GameBtnOK, &s_Bounding1, true);
 	waitPnt_clickPnt(nullptr, &s_Bounding2);
 	waitPnt_clickPnt(nullptr, &s_Bounding3);
 	waitPnt_clickPnt(nullptr, &s_Bounding4);
@@ -172,13 +172,15 @@ void CLogic::waitCard_clickOK()
 	waitPnt_clickPnt(nullptr, &s_Random4);
 }
 
-void CLogic::waitPnt_clickPnt(CPnt5* pClick, CPnt5* pWait)
+void CLogic::waitPnt_clickPnt(CPnt5* pClick, CPnt5* pWait, bool bfirst)
 {
 	LOOP_BEGIN
 		if (pClick)
 			pClick->click();
 		if (pWait->find())
 		{
+			if (bfirst)
+				waitTime(3);
 			pWait->click();
 			break;
 		}
