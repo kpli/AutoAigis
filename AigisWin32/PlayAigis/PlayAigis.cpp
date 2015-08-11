@@ -17,7 +17,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		return FALSE;
 	}
 
-
 	CCtrl ctrl;
 	ctrl.initHotKey();
 

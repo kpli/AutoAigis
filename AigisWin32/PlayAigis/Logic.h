@@ -47,12 +47,15 @@ private:
 	// 点击加速, 满足条件
 	void clickSpeedUp(CPnt5* pntSpeed);
 
+	void waitCard();
+
 	// 等待
-	void waitTime(int nseconds);
+	void waitTime(size_t nseconds);
 
 	// 超时重玩
 	static void DetectTimeout(size_t bt, size_t iSecs);
 
+	// 超时前都可以等待
 	static bool canWait();
 
 	// 线程主循环
@@ -62,6 +65,12 @@ private:
 	CLogic();
 	~CLogic();
 	static bool s_bWaitFor;			// 没超时继续等待
+
+	static CPnt5 s_CardSilver;
+	static CPnt5 s_CardGold;
+	static CPnt5 s_CardWhite;
+	static CPnt5 s_CardBlack;
+		   
 	static CPnt5 s_GameIcon;		// 游戏开始图标
 	static CPnt5 s_GameStory;		// 第二关第三关入口
 	static CPnt5 s_GameBtnOK;		// 确认按钮

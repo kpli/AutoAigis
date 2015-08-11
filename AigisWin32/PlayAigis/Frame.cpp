@@ -77,7 +77,7 @@ void CFrame::closeChrome()
 	{
 		return;
 	}
-	SendMessage(hChrome, WM_CLOSE, NULL, NULL);
+	PostMessage(hChrome, WM_CLOSE, NULL, NULL);
 }
 
 HWND CFrame::chromeHwnd()
@@ -109,6 +109,7 @@ void CFrame::saveImage()
 
 	CTools* pTools = CTools::getInstance();
 	pTools->saveBmp(hwnd, fileName);
+	closeChrome();
 }
 
 bool CFrame::findColor(CPnt5* pnt5)
@@ -154,12 +155,12 @@ void CFrame::logColor(CPnt5* pnt5)
 		return ;
 	}
 
-	cout << pnt5->getPoint(EPD_MID).x << ", " << pnt5->getPoint(EPD_MID).y;
+	cout << dec << pnt5->getPoint(EPD_MID).x << ", " << pnt5->getPoint(EPD_MID).y;
 	for (size_t i = 0; i < EPD_MAX; i++)
 	{
 		POINT pntTmp = pnt5->getPoint((E_POINT_DIRECTION)i);
 		COLORREF colorFind = GetPixel(hdc, pntTmp.x, pntTmp.y);
-		cout << ", 0x" << colorFind;
+		cout << ", 0x" << hex << colorFind;
 	}
 	cout << endl;
 
@@ -189,8 +190,10 @@ void CFrame::click(CPnt5* pnt5)
 	}
 
 	POINT pt = pnt5->getPoint(EPD_MID);
-	SendMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
-	SendMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
+	setCurSor(pt);
+	PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
+	Sleep(50);
+	PostMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
 	Sleep(50);
 }
 
@@ -205,11 +208,27 @@ void CFrame::drag(CRolePnt* pntR)
 	POINT p5 = pntR->p5.getPoint(EPD_MID);
 	POINT pt = pntR->pt;
 
-	SendMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(p5.x, p5.y));
-	Sleep(100);
+	setCurSor(p5);
+	PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(p5.x, p5.y));
+	Sleep(50);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
-	Sleep(200);
-	SendMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
 
+	setCurSor(pt);
+	Sleep(150);
+	PostMessage(hwnd, WM_LBUTTONUP, 0, MAKELPARAM(pt.x, pt.y));
+	Sleep(150);
+
+}
+
+void CFrame::setCurSor(POINT pnt)
+{
+	HWND hwnd = aigisHwnd();
+	if (!hwnd)
+	{
+		return;
+	}
+	POINT ptScr = pnt;
+	ClientToScreen(hwnd, &ptScr);
+	SetCursorPos(ptScr.x, ptScr.y);
 }
 
