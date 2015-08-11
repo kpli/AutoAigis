@@ -238,7 +238,7 @@ void CLogic::clickSpeedUp(CPnt5* pntSpeed)
 		pntSpeed->click();
 	}
 }
-#if 1
+#if 0
 void CLogic::waitCard()
 {
 	while (CCtrl::canPlay() && canWait())
