@@ -27,6 +27,7 @@ UEsDBBQAAgAIABpKB0epKJiDjSwAAM5MAAANABEAQm9uZGluZzAwLmJtcFVUDQAHbXfEVSkex1X1csRV
 
 
 [Script]
+Declare Function GetTickCount Lib "kernel32" Alias "GetTickCount" () As Long
 
 // 控制鼠标点击确认或者返回按钮的坐标
 bBackButton = False
@@ -45,14 +46,12 @@ iFrameY = 0
 iFrameX1 = 1920
 iFrameY1 = 1080
 
-iTimeOutCounter = 0
 RunApp "chrome"
 
 Rem GAME_BEGIN
 
 // 多次首抽循环
 While True
-	iTimeOutCounter = 0
 	Call InitCoord()	
 	Call PlayForFirstCard()	
 	Call WaitTime(10)
@@ -63,9 +62,9 @@ EndScript
 // 坐标计算
 Sub InitCoord()
 	bFound = False
-	iTimeOutCounter = 0
+	iLoopBeginTime = GetTickCount()
 	While (Not bFound )
-		Call TimeOutDetector()
+		Call TimeOutDetector(iLoopBeginTime)
 		FindPic 0, 0, 1920, 1080, "Attachment:\GameIcon.bmp", 0.9, iIconX, iIconY
 		If iIconX > 0 And iIconX > 0 Then 
 			bFound = True
@@ -145,9 +144,9 @@ End Sub
 // 找到图片, 不操作
 Sub AigisFindSp(picname)
 	bFound = False
-	iTimeOutCounter = 0
+	iLoopBeginTime = GetTickCount()
 	While (Not bFound )
-		Call TimeOutDetector()
+		Call TimeOutDetector(iLoopBeginTime)
 		Delay(50)
 		FindPic iFrameX,iFrameY,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -160,9 +159,9 @@ End Sub
 // 找到图片并点击
 Sub AigisFind(picname, offsets)
 	bFound = False
-	iTimeOutCounter = 0
+	iLoopBeginTime = GetTickCount()
 	While (Not bFound )
-		Call TimeOutDetector()
+		Call TimeOutDetector(iLoopBeginTime)
 		Delay(50)
 		FindPic iFrameX,iFrameY,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -179,9 +178,9 @@ End Sub
 // 找到图片并点击，没找到则循环点击空白区域
 Sub AigisFindEx(picname, offsets)
 	bFound = False
-	iTimeOutCounter = 0
+	iLoopBeginTime = GetTickCount()
 	While (Not bFound )
-		Call TimeOutDetector()
+		Call TimeOutDetector(iLoopBeginTime)
 		Call AigisClick(1)
 		FindPic iFrameX,iFrameY,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -197,9 +196,9 @@ End Sub
 // 指定范围内找到图片并点击，没找到则循环点击空白区域
 Sub AigisFindExRect(picname, offsets, off1, off2, off3, off4)
 	bFound = False
-	iTimeOutCounter = 0
+	iLoopBeginTime = GetTickCount()
 	While (Not bFound )
-		Call TimeOutDetector()
+		Call TimeOutDetector(iLoopBeginTime)
 		Call AigisClick(1)
 		FindPic iFrameX+off1,iFrameY+off2,iFrameX1+off3,iFrameY1+off4,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -227,10 +226,10 @@ End Sub
 // 角色加入战场, 不加速
 Sub JoinWarSp(picname, offsets, ix, iy)
 	bFound = False
-	iTimeOutCounter = 0
+	iLoopBeginTime = GetTickCount()
 	While (Not bFound )
 		Call AigisClick(1)
-		Call TimeOutDetector()
+		Call TimeOutDetector(iLoopBeginTime)
 		FindPic iFrameX,iFrameY+500,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
 			bFound = True
@@ -243,9 +242,9 @@ End Sub
 // 角色加入战场
 Sub JoinWar(picname, offsets, ix, iy)
 	bFound = False
-	iTimeOutCounter = 0
+	iLoopBeginTime = GetTickCount()
 	While (Not bFound )
-		Call TimeOutDetector()
+		Call TimeOutDetector(iLoopBeginTime)
 		Call SpeedUpEx()
 		FindPic iFrameX,iFrameY+500,iFrameX1,iFrameY1,"Attachment:\"+picname, 0.9, intX,intY
 		If intX > 0 And intY > 0 Then 
@@ -291,9 +290,9 @@ End Sub
 // 等待结束(包含加速)
 Sub WaitWin()
 	bFound = False
-	iTimeOutCounter = 0
+	iLoopBeginTime = GetTickCount()
 	While (Not bFound )
-		Call TimeOutDetector()
+		Call TimeOutDetector(iLoopBeginTime)
 		Call SpeedUpEx()
 		FindPic iFrameX+400, iFrameY+380, iFrameX+550, iFrameY+470, "Attachment:\GameWin.bmp", 0.9, intX, intY
 		If intX > 0 And intY > 0 Then 
@@ -302,17 +301,16 @@ Sub WaitWin()
 	Wend
 End Sub
 
-Sub TimeOutDetector()
-	curCounter = iTimeOutCounter
-	iTimeOutCounter = curCounter + 1
-	If iTimeOutCounter > 3600 Then 
-		iTimeOutCounter = 0
-		Call SaveAigis()
-		Call WaitTime(10)
-		Goto GAME_BEGIN
-	End If
+Sub TimeOutDetector(iBeginTime)
+ iCurTime = GetTickCount()
+ iTimePassed = iCurTime - iBeginTime
+    TracePrint iTimePassed
+ If iTimePassed > 180 * 1000 Then 
+  Call SaveAigis()
+  Call WaitTime(10)
+  Goto GAME_BEGIN
+ End If
 End Sub
-
 
 Sub SaveAigis()
 		// 保存截图
@@ -344,4 +342,3 @@ Sub SaveAigisEx(bGotCard)
 		RunApp "chrome"
 		Call WaitTime(1)
 End Sub
-
