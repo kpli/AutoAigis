@@ -2,11 +2,26 @@
 //
 
 #include "stdafx.h"
+#include "Tools.h"
+#include "Frame.h"
+#include "Pnt5.h"
 
+#include "Ctrl.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	HANDLE hMutex = CreateMutex(NULL, FALSE, _T("PlayAigis"));
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	{
+		CloseHandle(hMutex);
+		return FALSE;
+	}
+
+
+	CCtrl ctrl;
+	ctrl.initHotKey();
+
+	CloseHandle(hMutex);
 	return 0;
 }
-
 

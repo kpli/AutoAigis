@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Tools.h"
 #include "Frame.h"
+#include "Pnt5.h"
 
 
 CTools::CTools()
@@ -28,7 +29,7 @@ void CTools::initDir()
 	}
 }
 
-void CTools::save(HWND hwnd, LPCTSTR file)
+void CTools::saveBmp(HWND hwnd, LPCTSTR file)
 {
 	HDC hdc = GetWindowDC(hwnd);
 	HDC hMemDC_Tmp = CreateCompatibleDC(hdc);							//创建与桌面窗口DC相适应的内存TMP
@@ -42,19 +43,6 @@ void CTools::save(HWND hwnd, LPCTSTR file)
 	DeleteObject(hbitm_tmp);
 	DeleteDC(hMemDC_Tmp);
 	ReleaseDC(hwnd, hdc);
-}
-
-void CTools::save()
-{
-	CFrame* pFrame = CFrame::getInstance();
-	HWND hwnd = pFrame->aigisHwnd();
-	if (hwnd)
-	{
-		TCHAR buffer[MAXCHAR] = { 0 };
-		pFrame->getAccount(buffer, MAXCHAR);
-		_tcscat_s(buffer, _T(".bmp"));
-		save(hwnd, buffer);
-	}
 }
 
 BOOL CTools::flushBmp(HBITMAP hbitmap, LPCTSTR filename, int nColor)
@@ -136,25 +124,10 @@ BOOL CTools::flushBmp(HBITMAP hbitmap, LPCTSTR filename, int nColor)
 	return TRUE;
 }
 
-
-COLORREF CTools::getColor(POINT pnt)
+void CTools::printMouseColor()
 {
-	CFrame* pFrame = CFrame::getInstance();
-	HWND hwnd = pFrame->aigisHwnd();
-	if (!hwnd)
-	{
-		cout << "frame hwnd error" << endl;
-		return 0x00000000;
-	}
 
-	HDC hdc = GetWindowDC(hwnd);
-	if (!hdc)
-	{
-		cout << "frame hdc error" << endl;
-		return 0x00000000;
-	}
-
-	COLORREF color = GetPixel(hdc, pnt.x, pnt.y);
-	return color;
 }
+
+
 
