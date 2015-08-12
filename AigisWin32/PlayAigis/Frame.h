@@ -29,7 +29,7 @@ public:
 private:
 	HWND chromeHwnd();
 	HWND aigisHwnd();
-	void getAccount(LPTSTR lpBuf, int maxLen);
+	void generatImgName(LPTSTR lpBuf, int maxLen);
 	void setCurSor(POINT pnt);
 private:
 	CFrame();

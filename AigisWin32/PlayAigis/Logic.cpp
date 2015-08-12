@@ -228,7 +228,7 @@ void CLogic::waitCard()
 			iCard = 4;
 		if (iCard > 0)
 		{
-			s_bTo2Random = (iCard || iCard == 4)?true:false;	
+			s_bTo2Random = (iCard == 4)?true:false;	
 			cout << "; ";
 			waitTime(iCard);
 			if (iCard > 3)
@@ -342,6 +342,7 @@ void CLogic::ThreadTest(void *)
 	cout << "::TEST_START::" << endl;
 	while (CCtrl::canPlay())
 	{
+		s_bTo2Random = true;
 		getInstance()->SecondRondomCard();
 	}
 	cout << "\r\n::TEST_STOP::" << endl;
@@ -351,10 +352,14 @@ void CLogic::ThreadTest(void *)
 void CLogic::selectStory4567(CPnt5* pStoryEntry)
 {
 	waitEntry_clickBack();
+	Sleep(300);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_1);
+	Sleep(200);
 	waitPnt_clickPnt(nullptr, pStoryEntry);
+	Sleep(100);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_3);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_4);
+	waitTime(1);
+	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_4, true);
 }
 
 void CLogic::FirstRondomCard()

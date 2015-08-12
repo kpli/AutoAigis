@@ -35,38 +35,40 @@ HWND CFrame::aigisHwnd()
 	return hFrame;
 }
 
-void CFrame::getAccount(LPTSTR lpBuf, int maxLen)
+void CFrame::generatImgName(LPTSTR lpBuf, int maxLen)
 {
 	HWND hChrome = chromeHwnd();
 	if (!hChrome)
 	{
 		return;
 	}
-
-	GetWindowText(hChrome, lpBuf, maxLen);
-
-	int nLen = _tcslen(lpBuf);
+	// for title
+	TCHAR bufferTitle[MAXCHAR] = { 0 };
+	GetWindowText(hChrome, bufferTitle, maxLen);
+	int nLen = _tcslen(bufferTitle);
 	if (nLen == 0 || nLen >= maxLen/2)
 	{
-		_tcscpy_s(lpBuf, maxLen, _T("ERR"));
+		_tcscpy_s(bufferTitle, maxLen, _T("ERR"));
 	}
 	else
 	{
 		for (int i = 1; i < nLen; i++)
 		{
-			if (lpBuf[i] == '-')
+			if (bufferTitle[i] == '-')
 			{
-				lpBuf[i - 1] = '\0';
+				bufferTitle[i - 1] = '\0';
 			}
 		}
 	}
-
+	// for time
 	SYSTEMTIME sysTime;
 	GetLocalTime(&sysTime);
-	TCHAR buffer[MAXCHAR] = { 0 };
-	wsprintf(buffer, _T("_%04d%02d%02d%02d%02d%02d"), sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
-
-	_tcscat_s(lpBuf, MAXCHAR, buffer);
+	TCHAR bufferName[MAXCHAR] = { 0 };
+	wsprintf(bufferName, _T("%04d%02d%02d_%02d%02d%02d_"), sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
+	_tcscat_s(bufferName, MAXCHAR, bufferTitle);
+	_tcscat_s(bufferName, _T(".bmp"));
+	// for out put string
+	_tcscpy_s(lpBuf, maxLen, bufferName);
 }
 
 void CFrame::closeChrome()
@@ -103,8 +105,7 @@ void CFrame::saveImage()
 	}
 
 	TCHAR fileName[MAXCHAR] = { 0 };
-	getAccount(fileName, MAXCHAR);
-	_tcscat_s(fileName, _T(".bmp"));
+	generatImgName(fileName, MAXCHAR);
 
 	CTools* pTools = CTools::getInstance();
 	pTools->saveBmp(hwnd, fileName);

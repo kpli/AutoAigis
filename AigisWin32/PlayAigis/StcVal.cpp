@@ -99,7 +99,7 @@ CRolePnt CStcVal::s_ST6_Role5(CPnt5(460, 591, 0xbfffff, 0xa4e4ed, 0xc0c0c0, 0xa4
 CRolePnt CStcVal::s_ST6_Role6(CPnt5(360, 587, 0xdbedff, 0xdbedff, 0xd2e4ff, 0xd2e4ff, 0xd2e4ff), 499, 376);		// 第6关角色6
 CRolePnt CStcVal::s_ST6_Role7(CPnt5(268, 590, 0x1b3649, 0x3f6d92, 0x1b3649, 0x1b2d40, 0x3f64bf), 416, 274);		// 第6关角色7
 
-CRolePnt CStcVal::s_ST7_Role1(CPnt5(49, 586, 0x120909, 0x6d89bf, 0x361b24, 0x526489, 0xbfd2f6), 353, 185);		// 第7关角色1
+CRolePnt CStcVal::s_ST7_Role1(CPnt5(49, 586, 0x120909, 0x6d89bf, 0x361b24, 0x526489, 0xbfd2f6), 353, 190);		// 第7关角色1
 CRolePnt CStcVal::s_ST7_Role2(CPnt5(756, 585, 0x6d7f6d, 0x3f6d92, 0x5280ad, 0xd2e4ff, 0xd2e4ff), 235, 316);		// 第7关角色2
 CRolePnt CStcVal::s_ST7_Role3(CPnt5(662, 584, 0x898989, 0x646464, 0x643f24, 0x6492d2, 0xbfedff), 376, 252);		// 第7关角色3
 CRolePnt CStcVal::s_ST7_Role4(CPnt5(560, 584, 0xedede4, 0x929289, 0xededed, 0xdbdbd2, 0xedede4), 261, 232);		// 第7关角色4
