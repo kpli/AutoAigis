@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Ctrl.h"
 #include "Frame.h"
+#include "Tools.h"
 #include "Logic.h"
 
 bool CCtrl::s_bEffect = true;
@@ -8,6 +9,7 @@ bool CCtrl::s_bEffect = true;
 
 CCtrl::CCtrl()
 {
+	cout << "Alt+(F1|F2) (COLOR|TEST)" << endl;
 	cout << "Alt+(F10|F12) (START|STOP)" << endl;
 }
 
@@ -20,6 +22,8 @@ void CCtrl::initHotKey()
 {
 	if (!RegisterHotKey(NULL, VK_F1, MOD_ALT | MOD_NOREPEAT, VK_F1))
 		cout << "RegisterHotKey error, key: " << hex << VK_F1 << endl;
+	if (!RegisterHotKey(NULL, VK_F2, MOD_ALT | MOD_NOREPEAT, VK_F2))
+		cout << "RegisterHotKey error, key: " << hex << VK_F2 << endl;
 	if (!RegisterHotKey(NULL, VK_F10, MOD_ALT | MOD_NOREPEAT, VK_F10))
 		cout << "RegisterHotKey error, key: " << hex << VK_F10 << endl;
 	if (!RegisterHotKey(NULL, VK_F12, MOD_ALT | MOD_NOREPEAT, VK_F12))
@@ -34,15 +38,17 @@ void CCtrl::initHotKey()
 			switch (wPressed)
 			{
 			case VK_F1:
-				cout << "press VK_F1" << endl;
+				CTools::getInstance()->printSystemTime();
 				CFrame::getInstance()->logColor();
 				break;
+			case VK_F2:
+				CTools::getInstance()->printSystemTime();
+				CLogic::getInstance()->playStory4();
+				break;
 			case VK_F10:
-				cout << "press VK_F10" << endl;
 				start();
 				break;
 			case VK_F12:
-				cout << "press VK_F12" << endl;
 				stop();
 				break;
 			default:
@@ -64,7 +70,6 @@ void CCtrl::start()
 
 void CCtrl::stop()
 {
-	cout << "______VK_F12_FOR_STOP______" << endl;
 	CCtrl::s_bEffect = false;
 }
 

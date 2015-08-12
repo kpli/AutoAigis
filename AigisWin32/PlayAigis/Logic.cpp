@@ -14,7 +14,7 @@ bool CLogic::s_bWaitFor = true;
 CPnt5 CLogic::s_CardSilver(205, 573, 0xb1b1b1, 0x878787, 0x9a9a9a, 0x9f9f9f, 0xa6a6a6);
 CPnt5 CLogic::s_CardGold(204, 576, 0x3af9ff, 0x1feff, 0x15e3f1, 0x39e8f3, 0x2b1cc);
 CPnt5 CLogic::s_CardWhite(203, 575, 0xecede9, 0xbbbdb2, 0xadb0a5, 0xfcfdfc, 0xe1e1dc);
-CPnt5 CLogic::s_CardBlack(203, 575, 0xecede9, 0xbbbdb2, 0xadb0a5, 0xfcfdfc, 0xe1e1dc);
+CPnt5 CLogic::s_CardBlack(155, 574, 0x1879d, 0x13b47, 0x1414d, 0x35a66, 0x24f5f);
 
 CPnt5 CLogic::s_GameIcon(454, 261, 0xaeaeae, 0x12128d, 0x5e5e5e, 0xffffff, 0xe2e2e1);		// 开始界面游戏LOGO
 CPnt5 CLogic::s_GameStory(654, 176, 0x8adafa, 0x8792bb, 0x6eb6e5, 0x45cbea, 0x62a0e6);		// 第二关第三关入口
@@ -72,6 +72,7 @@ void CLogic::startPlay()
 
 void CLogic::ThreadPlaying(void *)
 {
+	cout << "::START::" << endl;
 	while (CCtrl::canPlay())
 	{
  		getInstance()->startRegist();
@@ -98,6 +99,7 @@ void CLogic::ThreadPlaying(void *)
 			getInstance()->waitTime(10);
 		}
 	}
+	cout << "\r\n::STOP::" << endl;
 	_endthread();
 }
 
@@ -105,12 +107,12 @@ void CLogic::startRegist()
 {
 	CLogic::s_bWaitFor = true;
 	ShellExecute(NULL, _T("open"), _T("chrome.exe"), _T("www.bccto.me"), _T(""), WM_SHOWWINDOW);
-	cout << "______REGIST_START______" << endl;
+	cout << "R";
 }
 
 void CLogic::playStory1()
 {
-	cout << "______PLAY_STORY_1______" << endl;
+	cout << 1;
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role1, true);
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role2);
 	waitRole_bySpeedup(&s_GameSpeed1, &s_ST1_Role3);
@@ -122,7 +124,7 @@ void CLogic::playStory1()
 
 void CLogic::playStory2()
 {
-	cout << "______PLAY_STORY_2______" << endl;
+	cout << 2;
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role1);
 	CLogic::s_bWaitFor = true;
 	waitRole_bySpeedup(&s_GameSpeed2, &s_ST2_Role2);
@@ -138,7 +140,7 @@ void CLogic::playStory2()
 
 void CLogic::playStory3()
 {
-	cout << "______PLAY_STORY_3______" << endl;
+	cout << 3;
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role1);
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role2);
 	waitRole_bySpeedup(&s_GameSpeed3, &s_ST3_Role3);
@@ -150,19 +152,17 @@ void CLogic::playStory3()
 
 void CLogic::waitIcon_nothing()
 {
-	cout << "______WAIT_ICON______" << endl;
+	cout << ".";
 	waitPnt_clickPnt(nullptr, &s_GameIcon);
 }
 
 void CLogic::waitEntry_clickOK()
 {
-	cout << "______WAIT_ENTRY_2______" << endl;
 	waitPnt_clickPnt(&s_GameBtnOK, &s_GameStory);
 }
 
 void CLogic::waitBound_clickOK()
 {
-	cout << "______WAIT_BOUND______" << endl;
 	waitPnt_clickPnt(&s_GameBtnOK, &s_Bounding1, true);
 	waitPnt_clickPnt(nullptr, &s_Bounding2);
 	waitPnt_clickPnt(nullptr, &s_Bounding3);
@@ -171,13 +171,12 @@ void CLogic::waitBound_clickOK()
 
 void CLogic::waitEntry_clickBack()
 {
-	cout << "______WAIT_ENTRY_3______" << endl;
 	waitPnt_clickPnt(&s_GameBtnBack, &s_GameStory);
 }
 
 void CLogic::waitCard_clickOK()
 {
-	cout << "______WAIT_CARD______" << endl;
+	cout << ";";
 	waitPnt_clickPnt(&s_GameBtnOK, &s_Random1);
 	waitPnt_clickPnt(nullptr, &s_Random2);
 	waitPnt_clickPnt(nullptr, &s_Random3);
@@ -230,7 +229,6 @@ void CLogic::clickSpeedUp(CPnt5* pntSpeed)
 {
 	if (!pntSpeed)
 	{
-		cout << "______ERR_PNT_SPEED_NULL______" << endl;
 		return;
 	}
 	if (!pntSpeed->find())
@@ -238,62 +236,36 @@ void CLogic::clickSpeedUp(CPnt5* pntSpeed)
 		pntSpeed->click();
 	}
 }
-#if 0
-void CLogic::waitCard()
-{
-	while (CCtrl::canPlay() && canWait())
-	{
-		Sleep(20);
-		if (s_CardSilver.find())
-		{
-			waitTime(1);
-			break;
-		}
-		if (s_CardGold.find())
-		{
-			waitTime(2);
-			break;
-		}
-		if (s_CardWhite.find())
-		{
-			waitTime(3);
-			break;
-		}
-		if (s_CardBlack.find())
-		{
-			waitTime(4);
-			break;
-		}
-	}
-}
-#else
+
 void CLogic::waitCard()
 {
 	LOOP_BEGIN
 		Sleep(20);
+		size_t iCard = 0;
 		if (s_CardSilver.find())
-		{
-			waitTime(1);
-			break;
-		}
+			iCard = 1;
 		if (s_CardGold.find())
-		{
-			waitTime(2);
-			break;
-		}
+			iCard = 2;
 		if (s_CardWhite.find())
-		{
-			waitTime(3);
-			break;
-		}
+			iCard = 3;
 		if (s_CardBlack.find())
+			iCard = 4;
+		if (iCard > 0)
 		{
-			waitTime(4);
+			waitTime(iCard);
+			if (iCard >= 3)
+			{
+				SYSTEMTIME sysTime;
+				GetLocalTime(&sysTime);
+				char buffer[MAXCHAR] = { 0 };
+				sprintf_s(buffer, (": %04d-%02d-%02d %02d:%02d:%02d !!!GOLD!!! "), sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
+				cout << "\r\n" << ((iCard == 4) ? "__BLACK__" : "__WHITE__") << buffer << endl;
+			}
 			break;
 		}
-	LOOP_END(20)
+	LOOP_END(TIMEOUT_MAX_SECONDS)
 }
-#endif
+
 void CLogic::waitTime(size_t nseconds)
 {
 	LOOP_BEGIN
@@ -312,7 +284,7 @@ void CLogic::DetectTimeout(size_t bt, size_t iSecs)
 	if (dt >= iSecs * 1000)
 	{
 		CLogic::s_bWaitFor = false;		// 结束本次首抽，进行下一轮
-		cout << "______TIME_OUT_" << iSecs << "______"<< endl;
+		cout << "*" ;
 	}
 }
 
@@ -320,5 +292,20 @@ void CLogic::DetectTimeout(size_t bt, size_t iSecs)
 bool CLogic::canWait()
 {
 	return CLogic::s_bWaitFor;
+}
+
+void CLogic::playStory4()
+{
+
+}
+
+void CLogic::playStory5()
+{
+
+}
+
+void CLogic::playStory6()
+{
+
 }
 

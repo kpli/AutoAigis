@@ -129,5 +129,14 @@ void CTools::printMouseColor()
 
 }
 
+void CTools::printSystemTime()
+{
+	SYSTEMTIME sysTime;
+	GetLocalTime(&sysTime);
+	char buffer[MAXCHAR] = { 0 };
+	sprintf_s(buffer, ("SYSTEM TIME: %04d-%02d-%02d %02d:%02d:%02d"), sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
+	cout << buffer << endl;
+}
+
 
 

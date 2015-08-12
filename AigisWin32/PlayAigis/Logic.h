@@ -10,6 +10,10 @@ public:
 
 	// Æô¶¯×¢²áÁ÷³Ì
 	void startRegist();
+	
+	void playStory4();
+	void playStory5();
+	void playStory6();
 
 protected:
 

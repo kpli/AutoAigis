@@ -6,6 +6,7 @@ public:
 
 	void saveBmp(HWND hwnd, LPCTSTR name);
 	void printMouseColor();
+	void printSystemTime();
 private:
 	CTools();
 	~CTools();
