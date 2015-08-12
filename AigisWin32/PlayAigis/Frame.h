@@ -22,6 +22,10 @@ public:
 	// ²Ù×÷
 	void click(CPnt5* pnt5);
 	void drag(CRolePnt* pntR);
+
+	// ¼ÇÂ¼ËÑË÷·¶Î§
+	void setRangeLT();
+	void setRangeRB();
 private:
 	HWND chromeHwnd();
 	HWND aigisHwnd();

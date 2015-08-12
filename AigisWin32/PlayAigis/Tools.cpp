@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Tools.h"
 #include "Frame.h"
-#include "Pnt5.h"
 
 
 CTools::CTools()
@@ -137,6 +136,45 @@ void CTools::printSystemTime()
 	sprintf_s(buffer, ("SYSTEM TIME: %04d-%02d-%02d %02d:%02d:%02d"), sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
 	cout << buffer << endl;
 }
+
+void CTools::searchColor()
+{
+	for (int xi = CStcVal::s_rcRange.left; xi <= CStcVal::s_rcRange.right; xi++)
+	{
+		for (int yi = CStcVal::s_rcRange.top; yi <= CStcVal::s_rcRange.bottom; yi++)
+		{
+			CPnt5 pntFind(xi, yi, CStcVal::s_arrColor[0], CStcVal::s_arrColor[1], CStcVal::s_arrColor[2], CStcVal::s_arrColor[3], CStcVal::s_arrColor[4]);
+			if (pntFind.find())
+			{
+				cout << "POS: " << dec << xi << ", " << yi << endl;
+				return;
+			}
+		}
+	}
+}
+
+bool CTools::findRidder()
+{
+	POINT p5Orgin = CStcVal::s_pnt5Rider.getPoint(EPD_MID);
+	for (size_t x = 0; x < FORM_ELEMENT_NUMMAX; x++)
+	{
+		int iRetX = p5Orgin.x + x*FORM_ELEMENT_SIZE;
+		for (size_t y = 0; y < FORM_ELEMENT_NUMMAX; y++)
+		{
+			int iRetY = p5Orgin.y + y*FORM_ELEMENT_SIZE;
+			CPnt5 p5TMP(CStcVal::s_pnt5Rider);
+			p5TMP.setMidPnt(iRetX, iRetY);
+			if (p5TMP.find())
+			{
+				//cout << "FOUND RIDDER: (" << dec << x << "," << y << ") (" << iRetX << "," << iRetY << ")" << endl;
+				p5TMP.click();
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 
 
 

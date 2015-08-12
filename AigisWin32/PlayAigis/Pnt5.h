@@ -13,6 +13,8 @@ public:
 	POINT getPoint(E_POINT_DIRECTION epd);
 	const COLORREF getColor(E_POINT_DIRECTION epd);
 
+	void setMidPnt(int x, int y);
+
 	bool find();
 	void click();
 	void print();

@@ -21,3 +21,5 @@ using namespace std;
 
 
 #include "Define.h"
+#include "Pnt5.h"
+#include "StcVal.h"

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Frame.h"
 #include "Tools.h"
-#include "Pnt5.h"
 
 
 CFrame::CFrame()
@@ -160,9 +159,10 @@ void CFrame::logColor(CPnt5* pnt5)
 		POINT pntTmp = pnt5->getPoint((E_POINT_DIRECTION)i);
 		COLORREF colorFind = GetPixel(hdc, pntTmp.x, pntTmp.y);
 		cout << ", 0x" << hex << colorFind;
+		CStcVal::s_arrColor[i] = colorFind;
 	}
 	cout << endl;
-
+	
 	ReleaseDC(hwnd, hdc);
 }
 
@@ -229,5 +229,33 @@ void CFrame::setCurSor(POINT pnt)
 	POINT ptScr = pnt;
 	ClientToScreen(hwnd, &ptScr);
 	SetCursorPos(ptScr.x, ptScr.y);
+}
+
+void CFrame::setRangeLT()
+{
+	HWND hwnd = aigisHwnd();
+	if (!hwnd)
+	{
+		return;
+	}
+	POINT pntCursor;
+	GetCursorPos(&pntCursor);
+	ScreenToClient(hwnd, &pntCursor);
+	CStcVal::s_rcRange.left = pntCursor.x;
+	CStcVal::s_rcRange.top = pntCursor.y;
+}
+
+void CFrame::setRangeRB()
+{
+	HWND hwnd = aigisHwnd();
+	if (!hwnd)
+	{
+		return;
+	}
+	POINT pntCursor;
+	GetCursorPos(&pntCursor);
+	ScreenToClient(hwnd, &pntCursor);
+	CStcVal::s_rcRange.right = pntCursor.x;
+	CStcVal::s_rcRange.bottom = pntCursor.y;
 }
 

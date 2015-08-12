@@ -15,6 +15,7 @@ public:
 private:
 	void stop();
 	void start();
+	void test();
 	static bool s_bEffect;
 };
 

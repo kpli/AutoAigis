@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "Tools.h"
 #include "Frame.h"
-#include "Pnt5.h"
 
 #include "Ctrl.h"
 

@@ -1,21 +1,40 @@
 #pragma once
-class CPnt5;
-class CRolePnt;
 class CLogic
 {
 public:
 	static CLogic* getInstance();
 
 	void startPlay();
-
-	// 启动注册流程
-	void startRegist();
-	
-	void playStory4();
-	void playStory5();
-	void playStory6();
+	void startTest();
 
 protected:
+	void FirstRondomCard();
+	void SecondRondomCard();
+	
+protected:
+
+	// 选择骑士
+	void selectUnit();
+
+	void selectStory4567(CPnt5* pStoryEntry);
+
+	// 选择第4关
+	void playStory4();
+
+	// 选择第5关
+	void playStory5();
+
+
+	// 选择第6关
+	void playStory6();
+
+	// 选择第7关
+	void playStory7();
+
+
+protected:
+	// 启动注册流程
+	void startRegist();
 
 	void playStory1();
 
@@ -32,11 +51,15 @@ protected:
 	// 点击确认， 直到选择增益
 	void waitBound_clickOK();
 
-	// 点击返回， 直到第三关入口
+	// 点击返回， 直到第三，四关入口
 	void waitEntry_clickBack();
+
+	// 点击确认， 直到显示返回按钮
+	void waitBack_clickOK();
 
 	// 点击确认， 直到可以抽卡
 	void waitCard_clickOK();
+	void waitCard_clickOK2();
 
 
 private:
@@ -65,45 +88,12 @@ private:
 	// 线程主循环
 	static void ThreadPlaying(void *);
 
+	// 测试循环
+	static void ThreadTest(void *);
 private:
 	CLogic();
 	~CLogic();
 	static bool s_bWaitFor;			// 没超时继续等待
-
-	static CPnt5 s_CardSilver;
-	static CPnt5 s_CardGold;
-	static CPnt5 s_CardWhite;
-	static CPnt5 s_CardBlack;
-		   
-	static CPnt5 s_GameIcon;		// 游戏开始图标
-	static CPnt5 s_GameStory;		// 第二关第三关入口
-	static CPnt5 s_GameBtnOK;		// 确认按钮
-	static CPnt5 s_GameBtnBack;		// 返回按钮
-	static CPnt5 s_GameSpeed1;		// 第一关加速
-	static CPnt5 s_GameSpeed2;		// 第二关加速
-	static CPnt5 s_GameSpeed3;		// 第三关加速
-	static CPnt5 s_Bounding1;		// 选择增益1步
-	static CPnt5 s_Bounding2;		// 选择增益2步
-	static CPnt5 s_Bounding3;		// 选择增益3步
-	static CPnt5 s_Bounding4;		// 选择增益4步
-	static CPnt5 s_Random1;			// 抽卡1步
-	static CPnt5 s_Random2;			// 抽卡2步
-	static CPnt5 s_Random3;			// 抽卡3步
-	static CPnt5 s_Random4;			// 抽卡4步
-	static CRolePnt s_ST1_Role1;		// 第1关角色1
-	static CRolePnt s_ST1_Role2;		// 第1关角色2
-	static CRolePnt s_ST1_Role3;		// 第1关角色3
-	static CRolePnt s_ST1_Role4;		// 第1关角色4
-	static CRolePnt s_ST1_Role5;		// 第1关角色5
-	static CRolePnt s_ST2_Role1;		// 第2关角色1
-	static CRolePnt s_ST2_Role2;		// 第2关角色2
-	static CRolePnt s_ST2_Role3;		// 第2关角色3
-	static CRolePnt s_ST2_Role4;		// 第2关角色4
-	static CRolePnt s_ST2_Role5;		// 第2关角色5
-	static CRolePnt s_ST3_Role1;		// 第3关角色1
-	static CRolePnt s_ST3_Role2;		// 第3关角色2
-	static CRolePnt s_ST3_Role3;		// 第3关角色3
-	static CRolePnt s_ST3_Role4;		// 第3关角色4
-	static CRolePnt s_ST3_Role5;		// 第3关角色5
+	static bool s_bTo2Random;		// 可以二抽
 };
 

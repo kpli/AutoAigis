@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Pnt5.h"
+//#include "Pnt5.h"
 #include "Tools.h"
 #include "Frame.h"
  
@@ -126,11 +126,18 @@ void CPnt5::click()
 	CFrame::getInstance()->click(this);
 }
 
+void CPnt5::setMidPnt(int x, int y)
+{
+	mp.x = x;
+	mp.y = y;
+}
+
 
 CRolePnt::CRolePnt(CPnt5 pnt5, int tx, int ty)
 	: p5(pnt5)
 {
-	pt.x = tx; pt.y = ty;
+	pt.x = tx; 
+	pt.y = ty;
 }
 
 void CRolePnt::drag()
