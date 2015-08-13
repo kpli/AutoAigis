@@ -64,7 +64,7 @@ void CLogic::ThreadPlaying(void *)
 void CLogic::startRegist()
 {
 	CLogic::s_bWaitFor = true;
-	ShellExecute(NULL, _T("open"), _T("chrome.exe"), _T("www.bccto.me"), _T(""), WM_SHOWWINDOW);
+	ShellExecute(NULL, _T("open"), _T("chrome.exe"), _T("www.bccto.me"), _T(""), SW_SHOW);
 	cout << "R";
 }
 

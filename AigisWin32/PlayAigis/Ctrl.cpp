@@ -11,10 +11,10 @@ bool CCtrl::s_bEffect = true;
 CCtrl::CCtrl()
 {
 #if GET_COLOR_DEBUG_MODE
-	cout << "Alt+(F1|F2) (COLOR|TEST)" << endl;
+	cout << "Alt+F1 GET COLOR" << endl;
 	cout << "Alt+(F7|F8) (SEARCH RANGE X|Y)" << endl;
 #endif
-	cout << "Alt+(F10|F12) (START|STOP)" << endl;
+	cout << "Alt+(F2|F10|F12) (TEST|START|STOP)" << endl;
 }
 
 
@@ -31,10 +31,10 @@ void CCtrl::initHotKey()
 
 #if GET_COLOR_DEBUG_MODE
 	RegisterHotKey(NULL, VK_F1, MOD_ALT | MOD_NOREPEAT, VK_F1);
-	RegisterHotKey(NULL, VK_F2, MOD_ALT | MOD_NOREPEAT, VK_F2);
 	RegisterHotKey(NULL, VK_F7, MOD_ALT | MOD_NOREPEAT, VK_F7);
 	RegisterHotKey(NULL, VK_F8, MOD_ALT | MOD_NOREPEAT, VK_F8);
 #endif
+	RegisterHotKey(NULL, VK_F2, MOD_ALT | MOD_NOREPEAT, VK_F2);
 
 	MSG msg = {0};  
 	while (GetMessage(&msg, NULL, 0, 0) != 0)  
@@ -76,10 +76,10 @@ void CCtrl::initHotKey()
 	UnregisterHotKey(NULL, VK_F12);
 #if GET_COLOR_DEBUG_MODE
 	UnregisterHotKey(NULL, VK_F1);
-	UnregisterHotKey(NULL, VK_F2);
 	UnregisterHotKey(NULL, VK_F7);
 	UnregisterHotKey(NULL, VK_F8);
 #endif
+	UnregisterHotKey(NULL, VK_F2);
 }
 
 void CCtrl::start()
