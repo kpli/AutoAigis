@@ -10,7 +10,7 @@
 #define LOOP_END(sec)	DetectTimeout(bt, sec);}
 
 bool CLogic::s_bWaitFor = true;
-bool CLogic::s_bTo2Random = false;
+int CLogic::s_iCardStar = 0;
 
 
 CLogic::CLogic()
@@ -44,7 +44,6 @@ void CLogic::ThreadPlaying(void *)
 	cout << "::START::" << endl;
 	while (CCtrl::canPlay())
 	{
-		s_bTo2Random = false;
  		getInstance()->startRegist();
  		getInstance()->waitTime(60);	// 等待注册
 		
@@ -214,30 +213,28 @@ void CLogic::clickSpeedUp(CPnt5* pntSpeed)
 
 void CLogic::waitCard()
 {
-	s_bTo2Random = false;
+	s_iCardStar = 0;
 	LOOP_BEGIN
 		Sleep(20);
-		size_t iCard = 0;
 		if (CStcVal::s_CardSilver.find())
-			iCard = 1;
+			s_iCardStar = 1;
 		if (CStcVal::s_CardGold.find())
-			iCard = 2;
+			s_iCardStar = 2;
 		if (CStcVal::s_CardWhite.find())
-			iCard = 3;
+			s_iCardStar = 3;
 		if (CStcVal::s_CardBlack.find())
-			iCard = 4;
-		if (iCard > 0)
+			s_iCardStar = 4;
+		if (s_iCardStar > 0)
 		{
-			s_bTo2Random = (iCard == 4)?true:false;	
 			cout << "; ";
-			waitTime(iCard);
-			if (iCard > 3)
+			waitTime(s_iCardStar);
+			if (s_iCardStar > 3)
 			{
 				SYSTEMTIME sysTime;
 				GetLocalTime(&sysTime);
 				char buffer[MAXCHAR] = { 0 };
 				sprintf_s(buffer, (": %04d-%02d-%02d %02d:%02d:%02d !!!GOLD!!! "), sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
-				cout << "\r\n" << ((iCard == 4) ? "__BLACK__" : "__WHITE__") << buffer << endl;
+				cout << "\r\n" << ((s_iCardStar == 4) ? "__BLACK__" : "__WHITE__") << buffer << endl;
 			}
 			break;
 		}
@@ -342,7 +339,7 @@ void CLogic::ThreadTest(void *)
 	cout << "::TEST_START::" << endl;
 	while (CCtrl::canPlay())
 	{
-		s_bTo2Random = true;
+		s_iCardStar = 4;
 		getInstance()->SecondRondomCard();
 	}
 	cout << "\r\n::TEST_STOP::" << endl;
@@ -373,12 +370,13 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// 等待抽卡完成
-	CFrame::getInstance()->saveImage();
+	if (s_iCardStar >= 3 )
+		CFrame::getInstance()->saveImage();
 }
 
 void CLogic::SecondRondomCard()
 {
-	if (!s_bTo2Random)
+	if (s_iCardStar < 4)
 	{
 		return;
 	}
@@ -400,6 +398,7 @@ void CLogic::SecondRondomCard()
 
 	waitCard_clickOK2();
 	waitCard();	// 等待抽卡完成
-	CFrame::getInstance()->saveImage();
+	if (s_iCardStar >= 3 )
+		CFrame::getInstance()->saveImage();
 }
 

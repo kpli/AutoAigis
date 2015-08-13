@@ -94,6 +94,6 @@ private:
 	CLogic();
 	~CLogic();
 	static bool s_bWaitFor;			// 没超时继续等待
-	static bool s_bTo2Random;		// 可以二抽
+	static int s_iCardStar;		// 可以二抽
 };
 
