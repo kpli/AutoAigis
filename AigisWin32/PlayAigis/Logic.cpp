@@ -398,7 +398,6 @@ void CLogic::SecondRondomCard()
 
 	waitCard_clickOK2();
 	waitCard();	// µÈ´ý³é¿¨Íê³É
-	if (s_iCardStar >= 3 )
-		CFrame::getInstance()->saveImage();
+	CFrame::getInstance()->saveImage();
 }
 
