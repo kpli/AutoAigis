@@ -70,7 +70,7 @@ void CLogic::startRegist()
 void CLogic::playStory1()
 {
 	cout << 1;
-	waitRole_bySpeedup(&CStcVal::s_GameSpeed1, &CStcVal::s_ST1_Role1, true);
+	waitRole_bySpeedup(&CStcVal::s_GameSpeed1, &CStcVal::s_ST1_Role1);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed1, &CStcVal::s_ST1_Role2);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed1, &CStcVal::s_ST1_Role3);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed1, &CStcVal::s_ST1_Role4);
@@ -123,8 +123,8 @@ void CLogic::waitBack_clickOK()
 
 void CLogic::waitBound_clickOK()
 {
-	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_Bounding1, true);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_Bounding2);
+	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_Bounding1, false);
+	waitPnt_clickPnt(&CStcVal::s_Bounding1, &CStcVal::s_Bounding2);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Bounding3);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Bounding4);
 }
@@ -132,17 +132,17 @@ void CLogic::waitBound_clickOK()
 void CLogic::waitCard_clickOK()
 {
 	cout << "^";
-	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_Random1);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_Random2);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_Random3);
+	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_Random1, false);
+	waitPnt_clickPnt(nullptr, &CStcVal::s_Random2, false);
+	waitPnt_clickPnt(&CStcVal::s_Random2, &CStcVal::s_Random3);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Random4);
 }
 void CLogic::waitCard_clickOK2()
 {
 	cout << "^";
 	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_GameBtnBack);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_Random2);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_Random3);
+	waitPnt_clickPnt(nullptr, &CStcVal::s_Random2, false);
+	waitPnt_clickPnt(&CStcVal::s_Random2, &CStcVal::s_Random3);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Random4);
 }
 
@@ -156,12 +156,25 @@ void CLogic::waitPnt_clickPnt(CPnt5* pClick, CPnt5* pWait, bool bfirst)
 		{
 			if (bfirst)
 			{
-				waitTime(2);
-				pWait->click();
+				LOOP_BEGIN
+					if (!pWait->find())
+					{
+						break;
+					}
+					else
+					{
+						Sleep(200);
+						pWait->click();
+						Sleep(200);
+					}
+				LOOP_END(TIMEOUT_MAX_SECONDS)
 			}
-			Sleep(200);
-			pWait->click();
-			Sleep(200);
+			else
+			{
+				Sleep(200);
+				pWait->click();
+				Sleep(200);
+			}
 			break;
 		}
 	LOOP_END(TIMEOUT_MAX_SECONDS)
@@ -175,11 +188,23 @@ void CLogic::waitRole_bySpeedup(CPnt5* pntSpeed, CRolePnt* role, bool bfirst)
 		{
 			if (bfirst)
 			{
-				waitTime(1);
-				role->drag();
-				waitTime(1);
+				LOOP_BEGIN
+					if (!role->p5.find())
+					{
+						break;
+					}
+					else
+					{
+						role->drag();
+						Sleep(200);
+					}
+				LOOP_END(TIMEOUT_MAX_SECONDS)
 			}
-			role->drag();
+			else
+			{
+				role->drag();
+				Sleep(200);
+			}
 			break;
 		}
 	LOOP_END(TIMEOUT_MAX_SECONDS)
@@ -272,9 +297,9 @@ bool CLogic::canWait()
 
 void CLogic::selectUnit()
 {
-	waitPnt_clickPnt(&CStcVal::s_GameBtnBack, &CStcVal::s_GameUnit1);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit2);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit3);
+	waitPnt_clickPnt(&CStcVal::s_GameBtnBack, &CStcVal::s_GameUnit1, false);
+	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit2, false);
+	waitPnt_clickPnt(&CStcVal::s_GameUnit2, &CStcVal::s_GameUnit3);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit4);
 	waitTime(1);
 	CTools::getInstance()->findRidder();
@@ -351,12 +376,12 @@ void CLogic::selectStory4567(CPnt5* pStoryEntry)
 	waitEntry_clickBack();
 	Sleep(300);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_1);
-	Sleep(200);
+	Sleep(300);
 	waitPnt_clickPnt(nullptr, pStoryEntry);
-	Sleep(100);
+	Sleep(300);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_3);
-	waitTime(1);
-	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_4, true);
+	Sleep(300);
+	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_4);
 }
 
 void CLogic::FirstRondomCard()
@@ -370,7 +395,7 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// µÈ´ý³é¿¨Íê³É
-	if (s_iCardStar >= 3 )
+	if (s_iCardStar > 3 )
 		CFrame::getInstance()->saveImage();
 }
 
@@ -383,11 +408,11 @@ void CLogic::SecondRondomCard()
 	selectUnit();
 	selectStory4567(&CStcVal::s_SelectStory4_2);
 	playStory4();
-
-	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_Random1);
+	
+	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_Random1, false);
 	selectStory4567(&CStcVal::s_SelectStory5_2);
 	playStory5();
-
+	
 	waitBack_clickOK();
 	selectStory4567(&CStcVal::s_SelectStory6_2);
 	playStory6();

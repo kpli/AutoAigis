@@ -190,11 +190,11 @@ void CFrame::click(CPnt5* pnt5)
 	}
 
 	POINT pt = pnt5->getPoint(EPD_MID);
-	setCurSor(pt);
+	//setCurSor(pt);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
 	PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
 	Sleep(50);
-	setCurSor(pt);
+	//setCurSor(pt);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
 	PostMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
 	Sleep(50);
@@ -211,14 +211,14 @@ void CFrame::drag(CRolePnt* pntR)
 	POINT p5 = pntR->p5.getPoint(EPD_MID);
 	POINT pt = pntR->pt;
 
-	setCurSor(p5);
+	//setCurSor(p5);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(p5.x, p5.y));
 	PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(p5.x, p5.y));
 	Sleep(50);
-	setCurSor(pt);
+	//setCurSor(pt);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
-	PostMessage(hwnd, WM_LBUTTONUP, 0, MAKELPARAM(pt.x, pt.y));
-	Sleep(200);
+	PostMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
+	Sleep(50);
 
 }
 
