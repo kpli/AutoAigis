@@ -3,27 +3,18 @@
  */
 
 
-function selectAigis()
-{
-    window.setTimeout("closeSelfTab()", 1000);
-    window.open("http://www.nutaku.net/games/millennium-war-aigis/");
-}
-
-function closeSelfTab()
-{
-    window.close();
+function selectAigis() {
+    t_close();
+    t_OpenGame();
 }
 
 function main() {
     var sDomain = window.document.domain;
 
-    if (sDomain ==  "www.nutaku.net")
+    if (sDomain ==  "www.dmm.co.jp")
     {
         var sURL = window.document.documentURI;
-        if(sURL == "http://www.nutaku.net/home/")
-        {
             setTimeout("selectAigis()",1000);
-        }
     }
 
 }

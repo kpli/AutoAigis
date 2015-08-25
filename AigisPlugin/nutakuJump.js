@@ -4,18 +4,14 @@
 
 function validMaillAndLogin()
 {
-    var btnLogin= document.getElementsByClassName("submit");
-
-    var ev = document.createEvent('HTMLEvents');
-    ev.initEvent('click', true, true);
-    btnLogin[0].dispatchEvent(ev);
+    t_clickClass("d-btn-xhi-st", 0);
 }
 
 function main() {
 
     var sDomain = window.document.domain;
 
-    if (sDomain ==  "www.nutaku.net")
+    if (sDomain ==  "www.dmm.co.jp")
     {
         setTimeout("validMaillAndLogin()",1000);
     }

@@ -13,38 +13,43 @@
 
   "content_scripts": [
 	{
-	  "matches": ["http://www.bccto.me/*"],
-	  "js": [ "bccto.js" ],
+	  "matches": ["http://www.bccto.me/"],
+	  "js": [ "tools.js", "bccto.js" ],
 	  "run_at": "document_end"
 	},
 	{
-	  "matches": ["https://www.nutaku.net/signup/*"],
-	  "js": [ "nutakuSignup.js"],
+	  "matches": ["https://www.dmm.co.jp/my/-/register/", "https://www.dmm.co.jp/my/-/register/apply/"],
+	  "js": [ "tools.js", "nutakuSignup.js"],
 	  "run_at": "document_end"
 	},
 	{
-	  "matches": ["https://www.nutaku.net/signup/activation/complete/*"],
-	  "js": [ "nutakuJump.js"],
+	  "matches": ["https://www.dmm.co.jp/my/-/register/complete/*"],
+	  "js": [ "tools.js", "nutakuJump.js"],
 	  "run_at": "document_end"
 	},
 	{
-	  "matches": ["http://www.nutaku.net/home/*"],
-	  "js": [ "nutakuHome.js" ],
+	  "matches": ["http://www.dmm.co.jp/top/", "http://www.dmm.co.jp/netgame/"],
+	  "js": [ "tools.js", "nutakuHome.js" ],
+	  "run_at": "document_start"
+	},
+	{
+	  "matches": ["http://www.dmm.co.jp/netgame_s/aigis/", "http://www.dmm.co.jp/netgame/profile/-/regist/*", "http://www.dmm.co.jp/netgame/profile/-/regist/confirm/"],
+	  "js": ["tools.js",  "startAigis.js" ],
 	  "run_at": "document_end"
 	},
 	{
-	  "matches": ["http://www.nutaku.net/games/millennium-war-aigis/"],
-	  "js": [ "startAigis.js" ],
+	  "matches": ["http://www.dmm.co.jp/netgame/social/-/gadgets/*"],
+	  "js": [ "tools.js", "parseAigisURL.js" ],
+	  "run_at": "document_start"
+	},
+	{
+	  "matches": ["http://osapi.dmm.com/gadgets/ifr*"],
+	  "js": [ "tools.js", "playing.js" ],
 	  "run_at": "document_end"
 	},
 	{
-	  "matches": ["http://www.nutaku.net/games/millennium-war-aigis/play/*"],
-	  "js": [ "parseAigisURL.js" ],
-	  "run_at": "document_end"
-	},
-	{
-	  "matches": ["http://pf.nutaku.info/gadgets/ifr*"],
-	  "js": [ "playing.js" ],
+	  "matches": ["https://www.dmm.co.jp/my/-/login/*"],
+	  "js": [ "tools.js", "playgame.js" ],
 	  "run_at": "document_end"
 	}
   ],
@@ -55,13 +60,13 @@
 		"96": "image/logo_3.png"
 	},
 
-	"name": "ToolAigis",
+	"name": "AigisDMM",
 	"manifest_version": 2,
 	"version": "0.0.1",
 	"description": "regist nutaku and play aigis",
 
 	"browser_action": {
-	  	"default_title": "ToolAigis",
+	  	"default_title": "AigisDMM",
 	  	"default_icon": "image/logo_1.png" ,
 		"default_popup": "popup.html"
 	}

@@ -54,10 +54,10 @@ void CCtrl::initHotKey()
 				//CTools::getInstance()->findRidder();
 				//CTools::getInstance()->searchColor();
 				test();
+				break;
 #if GET_COLOR_DEBUG_MODE
 			case VK_F1:
 				CFrame::getInstance()->logColor();
-				break;
 				break;
 			case VK_F7:
 				CFrame::getInstance()->setRangeLT();
