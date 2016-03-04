@@ -11,9 +11,8 @@
 
 bool CLogic::s_bWaitFor = true;
 int CLogic::s_iCardStar = 0;
-
-
 CLogic::CLogic()
+	:s_website(nullptr)
 {
 }
 
@@ -27,6 +26,11 @@ CLogic* CLogic::getInstance()
 {
 	static CLogic ret;
 	return &ret;
+}
+
+void CLogic::setWebSite(wchar_t* websit)
+{
+	s_website = websit;
 }
 
 void CLogic::startPlay()
@@ -63,7 +67,7 @@ void CLogic::ThreadPlaying(void *)
 void CLogic::startRegist()
 {
 	CLogic::s_bWaitFor = true;
-	ShellExecute(NULL, _T("open"), _T("chrome.exe"), _T("www.bccto.me"), _T(""), SW_SHOW);
+	ShellExecute(NULL, _T("open"), _T("chrome.exe"), s_website, _T(""), SW_SHOW);
 	cout << "R";
 }
 
@@ -365,7 +369,8 @@ void CLogic::ThreadTest(void *)
 	while (CCtrl::canPlay())
 	{
 		s_iCardStar = 4;
-		getInstance()->SecondRondomCard();
+		CLogic::s_bWaitFor = true;
+		getInstance()->FirstRondomCard();
 	}
 	cout << "\r\n::TEST_STOP::" << endl;
 	_endthread();

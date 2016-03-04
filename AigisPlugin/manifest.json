@@ -13,6 +13,11 @@
 
   "content_scripts": [
 	{
+	  "matches": ["http://24mail.chacuo.net/"],
+	  "js": [ "tools.js", "24mailchacuo.js" ],
+	  "run_at": "document_end"
+	},
+	{
 	  "matches": ["http://www.bccto.me/"],
 	  "js": [ "tools.js", "bccto.js" ],
 	  "run_at": "document_end"

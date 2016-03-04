@@ -3,7 +3,8 @@ class CLogic
 {
 public:
 	static CLogic* getInstance();
-
+	
+	void setWebSite(wchar_t* websit);
 	void startPlay();
 	void startTest();
 
@@ -95,5 +96,6 @@ private:
 	~CLogic();
 	static bool s_bWaitFor;			// 没超时继续等待
 	static int s_iCardStar;		// 可以二抽
+	wchar_t* s_website;
 };
 

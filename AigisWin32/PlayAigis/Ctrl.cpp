@@ -14,7 +14,9 @@ CCtrl::CCtrl()
 	cout << "Alt+F1 GET COLOR" << endl;
 	cout << "Alt+(F7|F8) (SEARCH RANGE X|Y)" << endl;
 #endif
-	cout << "Alt+(F2|F10|F12) (TEST|START|STOP)" << endl;
+	cout << "Alt+(F2|F12) (TEST|STOP)" << endl;
+	cout << "Alt+F10 (bccto.me)" << endl;
+	cout << "Alt+F11 (24mail.chacuo.net)" << endl;
 }
 
 
@@ -26,6 +28,8 @@ void CCtrl::initHotKey()
 {
 	if (!RegisterHotKey(NULL, VK_F10, MOD_ALT | MOD_NOREPEAT, VK_F10))
 		cout << "RegisterHotKey error, key: " << hex << VK_F10 << endl;
+	if (!RegisterHotKey(NULL, VK_F10, MOD_ALT | MOD_NOREPEAT, VK_F11))
+		cout << "RegisterHotKey error, key: " << hex << VK_F11 << endl;
 	if (!RegisterHotKey(NULL, VK_F12, MOD_ALT | MOD_NOREPEAT, VK_F12))
 		cout << "RegisterHotKey error, key: " << hex << VK_F12 << endl;
 
@@ -45,6 +49,11 @@ void CCtrl::initHotKey()
 			switch (wPressed)
 			{
 			case VK_F10:
+				CLogic::getInstance()->setWebSite(_T("www.bccto.me"));
+				start();
+				break;
+			case VK_F11:
+				CLogic::getInstance()->setWebSite(_T("24mail.chacuo.net"));
 				start();
 				break;
 			case VK_F12:
@@ -73,6 +82,7 @@ void CCtrl::initHotKey()
 	}   
 
 	UnregisterHotKey(NULL, VK_F10);
+	UnregisterHotKey(NULL, VK_F11);
 	UnregisterHotKey(NULL, VK_F12);
 #if GET_COLOR_DEBUG_MODE
 	UnregisterHotKey(NULL, VK_F1);
