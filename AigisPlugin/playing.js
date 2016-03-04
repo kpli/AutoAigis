@@ -13,7 +13,7 @@ function setTabTitle()
 
 function main() {
     var sDomain = window.document.domain;
-    if (sDomain ==  "pf.nutaku.info")
+    if (sDomain ==  "osapi.dmm.com")
     {
         setTimeout("setTabTitle()",1000);
     }

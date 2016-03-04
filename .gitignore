@@ -8,3 +8,5 @@ AigisWin32/AigisWin32.opensdf
 AigisWin32/AigisWin32.v12.suo
 
 
+*.suo
+*.opendb

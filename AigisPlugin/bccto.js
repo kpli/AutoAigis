@@ -71,8 +71,12 @@ function updateNutakuMail() {
     return "";
 }
 
-function registMail() {
+function randomMail() {
     t_clickId("randMail");
+    setTimeout("registMail()",1000);
+}
+
+function registMail() {
     t_clickId("applyMail");
     setTimeout("validMailUpdate()",1000);
 }
@@ -81,7 +85,7 @@ function main() {
     var sDomain = window.document.domain;
     if (sDomain == "www.bccto.me")
     {
-        setTimeout("registMail()",1000);
+        setTimeout("randomMail()",2000);
     }
 }
 
