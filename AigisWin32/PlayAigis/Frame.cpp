@@ -130,7 +130,7 @@ bool CFrame::findColor(CPnt5* pnt5)
 		POINT pntTmp = pnt5->getPoint((E_POINT_DIRECTION)i);
 		COLORREF colorDefi = pnt5->getColor((E_POINT_DIRECTION)i);
 		COLORREF colorFind = GetPixel(hdc, pntTmp.x, pntTmp.y);
-		if (colorDefi != colorFind )
+		if (!CPnt5::isSameColor(colorDefi, colorFind ))
 		{
 			bSame = false;
 			break;

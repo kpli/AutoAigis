@@ -52,7 +52,7 @@ void CLogic::ThreadPlaying(void *)
  		getInstance()->waitTime(60);	// 等待注册
 		
 		getInstance()->FirstRondomCard();
-		//getInstance()->SecondRondomCard();
+		getInstance()->SecondRondomCard();
 
 		if (CCtrl::canPlay())
 		{
@@ -303,7 +303,8 @@ void CLogic::selectUnit()
 {
 	waitPnt_clickPnt(&CStcVal::s_GameBtnBack, &CStcVal::s_GameUnit1, false);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit2, false);
-	waitPnt_clickPnt(&CStcVal::s_GameUnit2, &CStcVal::s_GameUnit3);
+	//waitPnt_clickPnt(&CStcVal::s_GameUnit2, &CStcVal::s_GameUnit3);
+	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit3);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit4);
 	waitTime(1);
 	CTools::getInstance()->findRidder();
@@ -335,6 +336,7 @@ void CLogic::playStory5()
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed5, &CStcVal::s_ST5_Role5);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed5, &CStcVal::s_ST5_Role6);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed5, &CStcVal::s_ST5_Role7);
+	waitRole_bySpeedup(&CStcVal::s_GameSpeed5, &CStcVal::s_ST5_Role8);
 	waitOK_bySpeedup(&CStcVal::s_GameSpeed5);
 }
 
@@ -359,7 +361,6 @@ void CLogic::playStory7()
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed7, &CStcVal::s_ST7_Role3);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed7, &CStcVal::s_ST7_Role4);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed7, &CStcVal::s_ST7_Role5);
-	waitRole_bySpeedup(&CStcVal::s_GameSpeed7, &CStcVal::s_ST7_Role6);
 	waitOK_bySpeedup(&CStcVal::s_GameSpeed7);
 }
 
@@ -371,18 +372,22 @@ void CLogic::ThreadTest(void *)
 		s_iCardStar = 4;
 		CLogic::s_bWaitFor = true;
 		getInstance()->FirstRondomCard();
+
 	}
 	cout << "\r\n::TEST_STOP::" << endl;
 	_endthread();
 }
 
-void CLogic::selectStory4567(CPnt5* pStoryEntry)
+void CLogic::selectStory4567(CPnt5* pStoryEntry, bool bMustScroll)
 {
 	waitEntry_clickBack();
 	Sleep(300);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_1);
 	Sleep(300);
-	waitPnt_clickPnt(nullptr, pStoryEntry);
+	if(bMustScroll)
+		waitPnt_clickPnt(&CStcVal::s_scrollCtrl, pStoryEntry);
+	else
+		waitPnt_clickPnt(nullptr, pStoryEntry);
 	Sleep(300);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_3);
 	Sleep(300);
@@ -400,16 +405,16 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// 等待抽卡完成
-	if (s_iCardStar > 3 )
+	//if (s_iCardStar > 3 )
 		CFrame::getInstance()->saveImage();
 }
 
 void CLogic::SecondRondomCard()
 {
 	//不进行二抽，不值钱
-	//if (s_iCardStar < 4)
+	if (s_iCardStar < 4)
 	{
-		return;
+		//return;
 	}
 	selectUnit();
 	selectStory4567(&CStcVal::s_SelectStory4_2);
@@ -420,11 +425,11 @@ void CLogic::SecondRondomCard()
 	playStory5();
 	
 	waitBack_clickOK();
-	selectStory4567(&CStcVal::s_SelectStory6_2);
+	selectStory4567(&CStcVal::s_SelectStory6_2, true);
 	playStory6();
 
 	waitBack_clickOK();
-	selectStory4567(&CStcVal::s_SelectStory7_2);
+	selectStory4567(&CStcVal::s_SelectStory7_2, true);
 	playStory7();
 
 	waitCard_clickOK2();

@@ -17,7 +17,7 @@ protected:
 	// 选择骑士
 	void selectUnit();
 
-	void selectStory4567(CPnt5* pStoryEntry);
+	void selectStory4567(CPnt5* pStoryEntry, bool bMustScroll = false);
 
 	// 选择第4关
 	void playStory4();

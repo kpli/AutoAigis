@@ -8,7 +8,7 @@ function validMailUpdate() {
     var mailstri = document.getElementById("mail_cur_name").value;
     var mailuser = document.getElementById("converts").value;
     if(mailstri == null || mailuser != mailstri.substr(0,11) ) {
-        setTimeout("validMailUpdate()", 1000);
+        setTimeout("validMailUpdate()", 2000);
     }
     else {
         mailAll = mailstri;
@@ -24,7 +24,7 @@ function validMailUpdate() {
 function getGameLoginUrl() {
 	
     var mailContent = window.document.getElementById("mailview_data").innerText;
-    
+
 	var reKey=/(https.*)/gi;
 	var urlSplit = mailContent.match(reKey);
 	var posBlank = urlSplit[0].indexOf(" ");
@@ -49,7 +49,7 @@ function updateNutakuMail() {
             ev.initEvent('click', true, true);
             elementTarget.cells.item(0).dispatchEvent(ev);
 
-            setTimeout("getGameLoginUrl()",1000);
+            setTimeout("getGameLoginUrl()",2000);
             return c;
         }
     }
