@@ -414,7 +414,7 @@ void CLogic::SecondRondomCard()
 	//不进行二抽，不值钱
 	if (s_iCardStar < 4)
 	{
-		//return;
+		return;
 	}
 	selectUnit();
 	selectStory4567(&CStcVal::s_SelectStory4_2);
