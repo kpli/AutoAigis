@@ -1,12 +1,7 @@
+*.suo
+*.sdf
+AigisWin32/ipch
+AigisWin32/Debug
+AigisWin32/Release
 AigisWin32/PlayAigis/Debug
 AigisWin32/PlayAigis/Release
-AigisWin32/Debug
-AigisWin32/Release/PlayAigis.pdb
-AigisWin32/ipch
-AigisWin32/AigisWin32.sdf
-AigisWin32/AigisWin32.opensdf
-AigisWin32/AigisWin32.v12.suo
-
-
-*.suo
-*.opendb

@@ -371,7 +371,7 @@ void CLogic::ThreadTest(void *)
 	{
 		s_iCardStar = 4;
 		CLogic::s_bWaitFor = true;
-		getInstance()->FirstRondomCard();
+		getInstance()->SecondRondomCard();
 
 	}
 	cout << "\r\n::TEST_STOP::" << endl;
