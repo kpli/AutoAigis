@@ -36,7 +36,7 @@ CPnt5 CStcVal::s_Bounding4(256, 454, 0xf3f3fa, 0x282491, 0x6562cb, 0x2d2a91, 0x2
 
 CPnt5 CStcVal::s_Random1(355, 301, 0xb2bad4, 0x3b51bb, 0xbcc0d6, 0x9a96a9, 0x4062d9);		// ³é¿¨1²½
 CPnt5 CStcVal::s_Random2(57, 318, 0x32bd, 0x44a0e8, 0x2ab9, 0x147ddb, 0x54e9ff);					// ³é¿¨2²½
-CPnt5 CStcVal::s_Random3(395, 442, 0x72ae7, 0x6578d8, 0xecfbff, 0x71e1fb, 0x2037d1);		// ³é¿¨3²½
+CPnt5 CStcVal::s_Random3(395, 442, 0x735d4, 0x5c79d4, 0xecf4fb, 0x7ad5f9, 0x735d4);		// ³é¿¨3²½
 CPnt5 CStcVal::s_Random4(392, 419, 0xad, 0xc0c0ed, 0x1b12c0, 0x9b92e4, 0xb6);		// ³é¿¨4²½
 
 // for got the form size
