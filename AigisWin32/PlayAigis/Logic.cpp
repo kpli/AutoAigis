@@ -405,7 +405,7 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// µÈ´ý³é¿¨Íê³É
-	//if (s_iCardStar > 3 )
+	if (s_iCardStar >= 3 )
 		CFrame::getInstance()->saveImage();
 }
 
